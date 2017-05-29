@@ -1,0 +1,70 @@
+//
+//  ViewController.swift
+//  AHFM
+//
+//  Created by Marilyn on 5/23/17.
+//  Copyright © 2017 Marilyn. All rights reserved.
+//
+
+import UIKit
+import AVFoundation
+import CoreData
+
+class ViewController: UIViewController {
+    let player = AVPlayer(playerItem: AVPlayerItem(url: URL(string: "http://us2.ah.fm:443")!))
+    
+    @IBOutlet weak var pauseButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    var calendar: CalendarViewController!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        pauseButton.isHidden = true
+        
+        let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+        let request = SongInfo.songInfoRequest()
+        let allSongs = try! context!.fetch(request)
+        print(allSongs)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func didTouchPlayButton(_ sender: Any) {
+        pauseButton.isHidden = false
+        player.currentItem?.addObserver(self, forKeyPath: "timedMetadata", options: .new, context: nil)
+        player.play()
+        playButton.isHidden = true
+        titleLabel.isHidden = false
+    }
+    
+    @IBAction func didTouchPauseButton(_ sender: Any) {
+        playButton.isHidden = false
+        player.currentItem?.removeObserver(self, forKeyPath: "timedMetadata")
+        player.pause()
+        pauseButton.isHidden = true
+        titleLabel.isHidden = true
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard let givenPath = keyPath,
+            givenPath == "timedMetadata",
+            let item = object,
+            let AVItem = item as? AVPlayerItem else { return }
+        AVItem.timedMetadata?.forEach({ (item) in
+            print(item)
+            titleLabel.text = item.stringValue
+        })
+    }
+    
+    @IBAction func didPressCalendarButton(_ sender: Any) {
+        let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
+        calendar.context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+        self.present(UINavigationController.init(rootViewController: calendar), animated: true, completion: nil)
+    }
+}
+
