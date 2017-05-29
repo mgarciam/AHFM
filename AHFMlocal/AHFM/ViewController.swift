@@ -11,6 +11,7 @@ import AVFoundation
 import CoreData
 
 class ViewController: UIViewController {
+    
     let player = AVPlayer(playerItem: AVPlayerItem(url: URL(string: "http://us2.ah.fm:443")!))
     
     @IBOutlet weak var pauseButton: UIButton!
@@ -18,6 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     var calendar: CalendarViewController!
+    var favoritesList: FavoritesTableViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +67,11 @@ class ViewController: UIViewController {
         let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
         calendar.context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
         self.present(UINavigationController.init(rootViewController: calendar), animated: true, completion: nil)
+    }
+    
+    @IBAction func didPressFavoritesButton(_ sender: Any) {
+        let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
+        self.present(UINavigationController.init(rootViewController: favorites), animated: true, completion: nil)
     }
 }
 

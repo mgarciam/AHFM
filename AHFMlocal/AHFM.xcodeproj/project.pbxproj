@@ -10,6 +10,8 @@
 		8F7111111EDC7B930017FE98 /* SongInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F71110F1EDC7B930017FE98 /* SongInfo+CoreDataClass.swift */; };
 		8F7111121EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111101EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift */; };
 		8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */; };
+		8F7111161EDC9C250017FE98 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7111151EDC9C250017FE98 /* Favorites.storyboard */; };
+		8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */; };
 		8FB769B11ED47DC4004BF989 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB769B01ED47DC4004BF989 /* AppDelegate.swift */; };
 		8FB769B31ED47DC4004BF989 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB769B21ED47DC4004BF989 /* ViewController.swift */; };
 		8FB769B61ED47DC4004BF989 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FB769B41ED47DC4004BF989 /* Main.storyboard */; };
@@ -43,6 +45,8 @@
 		8F71110F1EDC7B930017FE98 /* SongInfo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8F7111101EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+AHFM.swift"; sourceTree = "<group>"; };
+		8F7111151EDC9C250017FE98 /* Favorites.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
+		8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
 		8FB769AD1ED47DC4004BF989 /* AHFM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AHFM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FB769B01ED47DC4004BF989 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FB769B21ED47DC4004BF989 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -115,7 +119,9 @@
 				8FB769B21ED47DC4004BF989 /* ViewController.swift */,
 				8FB769E51ED4AA91004BF989 /* CalendarViewController.swift */,
 				8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */,
+				8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */,
 				8FB769B41ED47DC4004BF989 /* Main.storyboard */,
+				8F7111151EDC9C250017FE98 /* Favorites.storyboard */,
 				8FB769E31ED4A9DC004BF989 /* CalendarAHFM.storyboard */,
 				8FB769BC1ED47DC4004BF989 /* LaunchScreen.storyboard */,
 				8FB769BA1ED47DC4004BF989 /* Assets.xcassets */,
@@ -254,6 +260,7 @@
 				8FB769BE1ED47DC4004BF989 /* LaunchScreen.storyboard in Resources */,
 				8FB769BB1ED47DC4004BF989 /* Assets.xcassets in Resources */,
 				8FB769B61ED47DC4004BF989 /* Main.storyboard in Resources */,
+				8F7111161EDC9C250017FE98 /* Favorites.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +288,7 @@
 				8FB769E61ED4AA91004BF989 /* CalendarViewController.swift in Sources */,
 				8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */,
 				8FB769B31ED47DC4004BF989 /* ViewController.swift in Sources */,
+				8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */,
 				8FB769B91ED47DC4004BF989 /* AHFM.xcdatamodeld in Sources */,
 				8FB769B11ED47DC4004BF989 /* AppDelegate.swift in Sources */,
 				8F7111121EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift in Sources */,
