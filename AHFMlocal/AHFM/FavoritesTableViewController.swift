@@ -8,22 +8,100 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class FavoritesTableViewController: UITableViewController {
+    
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
+    private var context: NSManagedObjectContext!
+    
+    class func newFavoritesVC(context: NSManagedObjectContext) -> FavoritesTableViewController {
+        let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
+        favorites.context = context
+        return favorites
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
+//        let initialDateSort = NSSortDescriptor(key: "initialDate", ascending: true)
+//        let endDateSort = NSSortDescriptor(key: "endDate", ascending: true)
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [nameSort]
+        
+        guard let moc = context else { return }
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: "name", cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError()
+        }
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        guard let sections = fetchedResultsController.sections else {
+            return 0
+        }
+        
+        return sections.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        guard let sections = fetchedResultsController.sections else {
+            return 0
+        }
+        
+        return sections[section].numberOfObjects
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
+        cell.textLabel?.text = song.name
         return cell
     }
     
     @IBAction func didPressCloseButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension FavoritesTableViewController : NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .move:
+            break
+        case .update:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            tableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move:
+            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }

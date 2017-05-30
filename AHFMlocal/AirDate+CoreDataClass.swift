@@ -1,5 +1,5 @@
 //
-//  SongInfo+CoreDataClass.swift
+//  AirDate+CoreDataClass.swift
 //  AHFM
 //
 //  Created by Marilyn on 5/30/17.
@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 
-public class SongInfo: NSManagedObject {
+public class AirDate: NSManagedObject {
 
 }

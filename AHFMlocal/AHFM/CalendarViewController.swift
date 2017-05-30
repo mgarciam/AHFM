@@ -12,7 +12,13 @@ import CoreData
 
 class CalendarViewController: UIViewController {
     
-    var context: NSManagedObjectContext!
+    private var context: NSManagedObjectContext!
+    
+    class func newCalendarVC(context: NSManagedObjectContext) -> CalendarViewController {
+        let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
+        calendar.context = context
+        return calendar
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +37,7 @@ class CalendarViewController: UIViewController {
             let parsedString = String(data: data, encoding: String.Encoding.utf8)!
             let schedule = parsedString as NSString
             do {
+                // Begin parsing the text file into triples.
                 let dayRegex = try NSRegularExpression(pattern: "---- \\w+, [0-9]{2}-[0-9]{2}-[0-9]{4} ----")
                 let dayMatches = dayRegex.matches(in: schedule as String, range: NSRange(location: 0, length: schedule.length))
                 let dayTuples = dayMatches.map { dayMatch -> (String, NSRange) in
@@ -44,12 +51,14 @@ class CalendarViewController: UIViewController {
                 var formattedEndDate = Date()
                 let hourRegex = try NSRegularExpression(pattern: "[0-9]{2}:[0-9]{2}-[0-9]{2}:[0-9]{2} .+")
                 let hourMatches = hourRegex.matches(in: schedule as String, range: NSRange(location: 0, length: schedule.length))
+                
                 let hourTriple = hourMatches.map { hourMatchRange -> (Date, Date, String) in
                     let hourRange = hourMatchRange.range
                     let hourMatchSubstring = schedule.substring(with: hourRange)
                     
                     for dayTuple in dayTuples {
                         guard dayTuple.1.location < hourRange.location else { continue }
+                        
                         var separatedHourMatchSubstring = hourMatchSubstring.components(separatedBy: " ")
                         let setHours = separatedHourMatchSubstring.removeFirst()
                         setName = separatedHourMatchSubstring.joined(separator: " ")
@@ -63,13 +72,16 @@ class CalendarViewController: UIViewController {
                         formattedInitialDate = dateFormatter.date(from: setInitialDateAndHour)!
                         formattedEndDate = dateFormatter.date(from: setEndDateAndHour)!
                     }
-                    print(formattedInitialDate.timeIntervalSince1970, formattedEndDate.timeIntervalSince1970, setName)
-                    self.context.perform {
-                        try? SongInfo.init(name: setName.trimmingCharacters(in: CharacterSet.whitespaces), initialDate: formattedInitialDate, endDate: formattedEndDate, context: self.context)
-                        //try? self.context.save()
-                    }
+                    
                     return (formattedInitialDate, formattedEndDate, setName)
                 }
+                
+                var songsDictionary = [String : (Date, Date)]()
+                hourTriple.forEach { (initial, end, name) in
+                    songsDictionary[name] = (initial, end)
+                }
+                
+                
             } catch {
                 print("Invalid regex")
             }

@@ -13,15 +13,11 @@ extension String : Error { }
 
 extension SongInfo {
 
-    convenience init(name: String, initialDate: Date, endDate: Date, context: NSManagedObjectContext) throws {
+    class func newSong(name: String, initialDate: Date, endDate: Date, context: NSManagedObjectContext) throws -> SongInfo {
         
-        guard let entity = NSEntityDescription.entity(forEntityName: "SongInfo", in: context) else {
-            throw "Entity could not be inserted in context"
-        }
+        let newSong = NSEntityDescription.insertNewObject(forEntityName: "SongInfo", into: context) as! SongInfo
+        newSong.name = name
         
-        self.init(entity: entity, insertInto: context)
-        self.name = name
-        self.initialDate = initialDate as NSDate
-        self.endDate = endDate as NSDate
+        return newSong
     }
 }

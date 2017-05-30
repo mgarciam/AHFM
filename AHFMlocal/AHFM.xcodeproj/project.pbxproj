@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8F7111111EDC7B930017FE98 /* SongInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F71110F1EDC7B930017FE98 /* SongInfo+CoreDataClass.swift */; };
-		8F7111121EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111101EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift */; };
 		8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */; };
 		8F7111161EDC9C250017FE98 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7111151EDC9C250017FE98 /* Favorites.storyboard */; };
 		8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */; };
@@ -22,6 +20,12 @@
 		8FB769D41ED47DC4004BF989 /* AHFMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB769D31ED47DC4004BF989 /* AHFMUITests.swift */; };
 		8FB769E41ED4A9DC004BF989 /* CalendarAHFM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FB769E31ED4A9DC004BF989 /* CalendarAHFM.storyboard */; };
 		8FB769E61ED4AA91004BF989 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB769E51ED4AA91004BF989 /* CalendarViewController.swift */; };
+		8FF6A9E11EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9DD1EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift */; };
+		8FF6A9E21EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9DE1EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift */; };
+		8FF6A9E31EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9DF1EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift */; };
+		8FF6A9E41EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9E01EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift */; };
+		8FF6A9E61EDDD4FB00BAC6EC /* AirDate+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9E51EDDD4FB00BAC6EC /* AirDate+AHFM.swift */; };
+		8FF6A9E81EDDF0F500BAC6EC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,9 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8F71110F1EDC7B930017FE98 /* SongInfo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		8F7111101EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+AHFM.swift"; sourceTree = "<group>"; };
+		8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SongInfo+AHFM.swift"; path = "AHFM/SongInfo+AHFM.swift"; sourceTree = "<group>"; };
 		8F7111151EDC9C250017FE98 /* Favorites.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
 		8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
 		8FB769AD1ED47DC4004BF989 /* AHFM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AHFM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +65,12 @@
 		8FB769D51ED47DC4004BF989 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FB769E31ED4A9DC004BF989 /* CalendarAHFM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CalendarAHFM.storyboard; sourceTree = "<group>"; };
 		8FB769E51ED4AA91004BF989 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		8FF6A9DD1EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8FF6A9DE1EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8FF6A9DF1EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AirDate+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8FF6A9E01EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AirDate+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8FF6A9E51EDDD4FB00BAC6EC /* AirDate+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AirDate+AHFM.swift"; path = "AHFM/AirDate+AHFM.swift"; sourceTree = "<group>"; };
+		8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = AHFM/CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,8 +101,6 @@
 		8FB769A41ED47DC4004BF989 = {
 			isa = PBXGroup;
 			children = (
-				8F71110F1EDC7B930017FE98 /* SongInfo+CoreDataClass.swift */,
-				8F7111101EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift */,
 				8FB769AF1ED47DC4004BF989 /* AHFM */,
 				8FB769C71ED47DC4004BF989 /* AHFMTests */,
 				8FB769D21ED47DC4004BF989 /* AHFMUITests */,
@@ -115,10 +121,10 @@
 		8FB769AF1ED47DC4004BF989 /* AHFM */ = {
 			isa = PBXGroup;
 			children = (
+				8FF6A9EA1EDDF49A00BAC6EC /* Core Data */,
 				8FB769B01ED47DC4004BF989 /* AppDelegate.swift */,
 				8FB769B21ED47DC4004BF989 /* ViewController.swift */,
 				8FB769E51ED4AA91004BF989 /* CalendarViewController.swift */,
-				8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */,
 				8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */,
 				8FB769B41ED47DC4004BF989 /* Main.storyboard */,
 				8F7111151EDC9C250017FE98 /* Favorites.storyboard */,
@@ -147,6 +153,29 @@
 				8FB769D51ED47DC4004BF989 /* Info.plist */,
 			);
 			path = AHFMUITests;
+			sourceTree = "<group>";
+		};
+		8FF6A9E91EDDF48F00BAC6EC /* Autogenerated */ = {
+			isa = PBXGroup;
+			children = (
+				8FF6A9DD1EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift */,
+				8FF6A9DE1EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift */,
+				8FF6A9DF1EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift */,
+				8FF6A9E01EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift */,
+			);
+			name = Autogenerated;
+			sourceTree = "<group>";
+		};
+		8FF6A9EA1EDDF49A00BAC6EC /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				8FF6A9E91EDDF48F00BAC6EC /* Autogenerated */,
+				8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */,
+				8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */,
+				8FF6A9E51EDDD4FB00BAC6EC /* AirDate+AHFM.swift */,
+			);
+			name = "Core Data";
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,14 +314,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FF6A9E31EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift in Sources */,
 				8FB769E61ED4AA91004BF989 /* CalendarViewController.swift in Sources */,
+				8FF6A9E11EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift in Sources */,
+				8FF6A9E81EDDF0F500BAC6EC /* CoreDataStack.swift in Sources */,
 				8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */,
 				8FB769B31ED47DC4004BF989 /* ViewController.swift in Sources */,
 				8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */,
 				8FB769B91ED47DC4004BF989 /* AHFM.xcdatamodeld in Sources */,
+				8FF6A9E21EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift in Sources */,
+				8FF6A9E41EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift in Sources */,
 				8FB769B11ED47DC4004BF989 /* AppDelegate.swift in Sources */,
-				8F7111121EDC7B930017FE98 /* SongInfo+CoreDataProperties.swift in Sources */,
-				8F7111111EDC7B930017FE98 /* SongInfo+CoreDataClass.swift in Sources */,
+				8FF6A9E61EDDD4FB00BAC6EC /* AirDate+AHFM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

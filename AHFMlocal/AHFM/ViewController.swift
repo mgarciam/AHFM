@@ -12,6 +12,8 @@ import CoreData
 
 class ViewController: UIViewController {
     
+    var context: NSManagedObjectContext!
+    
     let player = AVPlayer(playerItem: AVPlayerItem(url: URL(string: "http://us2.ah.fm:443")!))
     
     @IBOutlet weak var pauseButton: UIButton!
@@ -24,11 +26,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         pauseButton.isHidden = true
-        
-        let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-        let request = SongInfo.songInfoRequest()
-        let allSongs = try! context!.fetch(request)
-        print(allSongs)
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,14 +61,14 @@ class ViewController: UIViewController {
     }
     
     @IBAction func didPressCalendarButton(_ sender: Any) {
-        let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
-        calendar.context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-        self.present(UINavigationController.init(rootViewController: calendar), animated: true, completion: nil)
+        let calendarVC = CalendarViewController.newCalendarVC(context: context)
+        let navController = UINavigationController(rootViewController: calendarVC)
+        self.present(navController, animated: true) { }
     }
     
     @IBAction func didPressFavoritesButton(_ sender: Any) {
-        let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
-        self.present(UINavigationController.init(rootViewController: favorites), animated: true, completion: nil)
+        let favoritesVC = FavoritesTableViewController.newFavoritesVC(context: context)
+        self.present(UINavigationController.init(rootViewController: favoritesVC), animated: true, completion: nil)
     }
 }
 
