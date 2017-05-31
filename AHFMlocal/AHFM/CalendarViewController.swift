@@ -12,9 +12,10 @@ import CoreData
 
 class CalendarViewController: UIViewController {
     
-    private var context: NSManagedObjectContext!
+    private var context: CoreDataStack!
+    private var resultsArr: [NSPersistentStoreResult] = []
     
-    class func newCalendarVC(context: NSManagedObjectContext) -> CalendarViewController {
+    class func newCalendarVC(context: CoreDataStack) -> CalendarViewController {
         let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
         calendar.context = context
         return calendar
@@ -46,13 +47,14 @@ class CalendarViewController: UIViewController {
                     return (dayMatchSubstring, dayMatchRange)
                 }
                 
-                var setName = ""
-                var formattedInitialDate = Date()
-                var formattedEndDate = Date()
                 let hourRegex = try NSRegularExpression(pattern: "[0-9]{2}:[0-9]{2}-[0-9]{2}:[0-9]{2} .+")
                 let hourMatches = hourRegex.matches(in: schedule as String, range: NSRange(location: 0, length: schedule.length))
                 
                 let hourTriple = hourMatches.map { hourMatchRange -> (Date, Date, String) in
+                    
+                    var formattedInitialDate = Date()
+                    var formattedEndDate = Date()
+                    var setName = ""
                     let hourRange = hourMatchRange.range
                     let hourMatchSubstring = schedule.substring(with: hourRange)
                     
@@ -81,6 +83,56 @@ class CalendarViewController: UIViewController {
                     songsDictionary[name] = (initial, end)
                 }
                 
+                let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
+                fetchRequest.predicate = NSPredicate(format: "name IN %@", Array(songsDictionary.keys))
+                let duplicates = try self.context.mainContext.fetch(fetchRequest)
+                
+                duplicates.forEach { savedSong in
+                    
+                    guard let savedSongName = savedSong.name else {
+                        // FIXME: Why is song saved in CoreData without a name? We should delete it.
+                        return
+                    }
+                    
+                    guard let airDates = songsDictionary[savedSongName] else {
+                        // This should never happen.
+                        return
+                    }
+                    
+                    let newAirDateClosure = {
+                        guard let newAirDate = AirDate(initialDate: airDates.0, endDate: airDates.1, context: self.context.mainContext) else { return }
+                        
+                        savedSong.addToAirDates(newAirDate)
+                        songsDictionary.removeValue(forKey: savedSongName)
+                    }
+                    
+                    guard let savedAirDates = savedSong.airDates, let savedAirDatesSet = savedAirDates as? Set<AirDate> else {
+                        // FIXME: Why is song saved in CoreData without airDates?
+                        newAirDateClosure()
+                        return
+                    }
+                    
+                    guard savedAirDatesSet.count <= 0 else {
+                        newAirDateClosure()
+                        return
+                    }
+                    
+                    for savedAirDate in savedAirDatesSet {
+                        guard let savedInitialDate = savedAirDate.initialDate as Date? else { return }
+                        guard savedInitialDate == airDates.0 else {
+                            // FIXME: Why is song saved in CoreData without an InitialDate?
+                            return
+                        }
+                    }
+                    
+                    newAirDateClosure()
+                }
+                
+                let _ = songsDictionary.map { keyValuePair -> NSManagedObject? in
+                    return try? SongInfo.newSong(name: keyValuePair.key, initialDate: keyValuePair.value.0, endDate: keyValuePair.value.1, context: self.context.mainContext)
+                }
+                
+               self.context.save()
                 
             } catch {
                 print("Invalid regex")

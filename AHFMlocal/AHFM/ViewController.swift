@@ -12,7 +12,7 @@ import CoreData
 
 class ViewController: UIViewController {
     
-    var context: NSManagedObjectContext!
+    var context: CoreDataStack!
     
     let player = AVPlayer(playerItem: AVPlayerItem(url: URL(string: "http://us2.ah.fm:443")!))
     

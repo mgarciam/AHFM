@@ -11,10 +11,10 @@ import CoreData
 
 extension AirDate {
     
-    convenience init(initialDate: Date, endDate: Date, context: NSManagedObjectContext) throws {
+    convenience init?(initialDate: Date, endDate: Date, context: NSManagedObjectContext) {
         
         guard let entity = NSEntityDescription.entity(forEntityName: "AirDate", in: context) else {
-            throw "Entity could not be inserted in context"
+            return nil
         }
         
         self.init(entity: entity, insertInto: context)

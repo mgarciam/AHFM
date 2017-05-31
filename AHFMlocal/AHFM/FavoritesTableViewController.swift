@@ -13,9 +13,9 @@ import CoreData
 class FavoritesTableViewController: UITableViewController {
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
-    private var context: NSManagedObjectContext!
+    private var context: CoreDataStack!
     
-    class func newFavoritesVC(context: NSManagedObjectContext) -> FavoritesTableViewController {
+    class func newFavoritesVC(context: CoreDataStack) -> FavoritesTableViewController {
         let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
         favorites.context = context
         return favorites
@@ -25,13 +25,10 @@ class FavoritesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
-//        let initialDateSort = NSSortDescriptor(key: "initialDate", ascending: true)
-//        let endDateSort = NSSortDescriptor(key: "endDate", ascending: true)
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         
-        guard let moc = context else { return }
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: "name", cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context.mainContext, sectionNameKeyPath: "name", cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {

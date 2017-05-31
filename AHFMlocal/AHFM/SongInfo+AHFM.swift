@@ -18,6 +18,10 @@ extension SongInfo {
         let newSong = NSEntityDescription.insertNewObject(forEntityName: "SongInfo", into: context) as! SongInfo
         newSong.name = name
         
+        let airDate = AirDate(initialDate: initialDate, endDate: endDate, context: context)
+        
+        newSong.addToAirDates(airDate!)
+        
         return newSong
     }
 }
