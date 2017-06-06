@@ -18,8 +18,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    
+
     var calendar: CalendarViewController!
     var favoritesList: FavoritesTableViewController!
     
@@ -38,7 +37,6 @@ class ViewController: UIViewController {
         player.currentItem?.addObserver(self, forKeyPath: "timedMetadata", options: .new, context: nil)
         player.play()
         playButton.isHidden = true
-        titleLabel.isHidden = false
     }
     
     @IBAction func didTouchPauseButton(_ sender: Any) {
@@ -46,7 +44,6 @@ class ViewController: UIViewController {
         player.currentItem?.removeObserver(self, forKeyPath: "timedMetadata")
         player.pause()
         pauseButton.isHidden = true
-        titleLabel.isHidden = true
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -54,10 +51,9 @@ class ViewController: UIViewController {
             givenPath == "timedMetadata",
             let item = object,
             let AVItem = item as? AVPlayerItem else { return }
-        AVItem.timedMetadata?.forEach({ (item) in
+        AVItem.timedMetadata?.forEach { (item) in
             print(item)
-            titleLabel.text = item.stringValue
-        })
+        }
     }
     
     @IBAction func didPressCalendarButton(_ sender: Any) {
@@ -71,4 +67,3 @@ class ViewController: UIViewController {
         self.present(UINavigationController.init(rootViewController: favoritesVC), animated: true, completion: nil)
     }
 }
-

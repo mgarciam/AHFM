@@ -25,6 +25,7 @@ class FavoritesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
+        request.predicate = NSPredicate.init(format: "favorite == true")
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         

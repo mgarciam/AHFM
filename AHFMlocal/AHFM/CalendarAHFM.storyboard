@@ -21,18 +21,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bau-wR-D55" customClass="FSCalendar">
-                                <rect key="frame" x="0.0" y="64" width="375" height="363"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bau-wR-D55" customClass="FSCalendar">
+                                <rect key="frame" x="0.0" y="64" width="375" height="285"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="285" id="AGn-zh-Qw2"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="x5E-Mi-tRE" id="cm9-7U-9gE"/>
                                     <outlet property="delegate" destination="x5E-Mi-tRE" id="iD5-bE-Hhc"/>
                                 </connections>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fvX-zB-nhw">
-                                <rect key="frame" x="0.0" y="435" width="375" height="224"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fvX-zB-nhw">
+                                <rect key="frame" x="0.0" y="349" width="375" height="318"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="songCell" textLabel="dDl-42-CEW" detailTextLabel="ooy-pa-hoF" style="IBUITableViewCellStyleValue1" id="bsI-fx-wFQ">
@@ -60,9 +61,22 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="x5E-Mi-tRE" id="Cwj-ez-pbd"/>
+                                    <outlet property="delegate" destination="x5E-Mi-tRE" id="O8X-b2-pNo"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bau-wR-D55" firstAttribute="leading" secondItem="gTU-YX-skD" secondAttribute="leading" id="89e-KO-CUG"/>
+                            <constraint firstAttribute="bottom" secondItem="fvX-zB-nhw" secondAttribute="bottom" id="BMP-80-aTg"/>
+                            <constraint firstItem="bau-wR-D55" firstAttribute="top" secondItem="2Nc-vY-pzf" secondAttribute="bottom" id="Hcc-cz-s3x"/>
+                            <constraint firstItem="fvX-zB-nhw" firstAttribute="top" secondItem="bau-wR-D55" secondAttribute="bottom" id="JUa-qp-7VM"/>
+                            <constraint firstItem="bau-wR-D55" firstAttribute="leading" secondItem="fvX-zB-nhw" secondAttribute="leading" id="kpW-f5-nhY"/>
+                            <constraint firstAttribute="trailing" secondItem="bau-wR-D55" secondAttribute="trailing" id="q0w-md-pfw"/>
+                            <constraint firstItem="bau-wR-D55" firstAttribute="trailing" secondItem="fvX-zB-nhw" secondAttribute="trailing" id="zz0-FF-kdq"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WHY-0S-GWv">
                         <barButtonItem key="leftBarButtonItem" title="Close" id="bvU-DA-pSJ">
@@ -72,7 +86,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="calendarHeightConstraint" destination="AGn-zh-Qw2" id="nLI-8L-Uyk"/>
                         <outlet property="calendarView" destination="bau-wR-D55" id="cWF-RC-fOt"/>
+                        <outlet property="tableView" destination="fvX-zB-nhw" id="fWm-Rc-3ax"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lj1-TW-rl1" userLabel="First Responder" sceneMemberID="firstResponder"/>

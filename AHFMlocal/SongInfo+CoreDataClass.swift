@@ -2,7 +2,7 @@
 //  SongInfo+CoreDataClass.swift
 //  AHFM
 //
-//  Created by Marilyn on 5/30/17.
+//  Created by Marilyn on 6/6/17.
 //  Copyright © 2017 Marilyn. All rights reserved.
 //
 

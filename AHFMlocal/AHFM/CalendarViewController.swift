@@ -10,12 +10,15 @@ import Foundation
 import UIKit
 import CoreData
 
-class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, UITableViewDelegate, UITableViewDataSource {
+class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
     
     private var context: CoreDataStack!
+    private var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
   
     @IBOutlet weak var calendarView: FSCalendar!
+    @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var tableView: UITableView!
     class func newCalendarVC(context: CoreDataStack) -> CalendarViewController {
         let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
         calendar.context = context
@@ -76,12 +79,8 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
                         dateFormatter.dateFormat = "---- EEEE, dd-MM-yyyy ----kk:mm"
                         formattedInitialDate = dateFormatter.date(from: setInitialDateAndHour)!
                         formattedEndDate = dateFormatter.date(from: setEndDateAndHour)!
-//                        if formattedEndDate < formattedInitialDate {
-//                            formattedEndDate = formattedEndDate.addingTimeInterval(86400)
-//                        }
                     }
                     
-                    //print(formattedInitialDate, formattedEndDate, setName)
                     return (formattedInitialDate, formattedEndDate, setName)
                 }
                 
@@ -93,17 +92,14 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
                         // The end date must be fixed, so a day is added to it.
                         let fixedEndDate = triple.1.addingTimeInterval(86400)
                         incrementedEndDate = fixedEndDate
-                        print (triple.0, fixedEndDate, triple.2)
                         return (triple.0, fixedEndDate, triple.2)
                     }
-                    // If the initial date is lower, then check the next case,
-                    // In the case where the initial date is higher than the incrementedEndDate, after the correction is made
+                    // If it is lower, no change is made.
                     guard let existingEndDate = incrementedEndDate else {
                         incrementedEndDate = triple.1
-                        print(triple)
                         return triple
                     }
-                    
+                    // If the initialDate is lower than the end date
                     guard triple.0 >= existingEndDate else {
                         // The initial date must be fixed by adding a day to it
                         let fixedInitialDate = triple.0.addingTimeInterval(86400)
@@ -112,83 +108,39 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
                             // The end date must be fixed by adding a day to it.
                             let fixedEndDate = triple.1.addingTimeInterval(86400)
                             incrementedEndDate = fixedEndDate
-                            print (fixedInitialDate, fixedEndDate, triple.2)
+                            
                             return (fixedInitialDate, fixedEndDate, triple.2)
                         }
                         // If the initial date is lower, a day is added to the initial date
                         incrementedEndDate = triple.1
-                        print (fixedInitialDate, triple.1, triple.2)
                         return (fixedInitialDate, triple.1, triple.2)
                     }
                     // If the initial date is lower, no change is made
                     incrementedEndDate = triple.1
-                    print(triple)
+                    
                     return triple
                 }
                 
-                var songsDictionary = [String : [(Date, Date)]]()
-                fixedDatesTriples.forEach { (initial, end, name) in
-                    if let existingDates = songsDictionary[name] {
-                        var allDates = existingDates
-                        allDates.append((initial, end))
-                        songsDictionary[name] = allDates
-                    } else {
-                        songsDictionary[name] = [(initial, end)]
+                self.context.mainContext.perform {
+                    let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
+                    fetchRequest.predicate = NSPredicate(format: "favorite == true")
+                    let results = try! self.context.mainContext.fetch(fetchRequest)
+                    
+                    let favoriteSongs = results.map { (savedSong) -> String? in
+                        return savedSong.name
+                    }.flatMap { $0 }
+                    
+                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: NSFetchRequest<SongInfo>(entityName: "SongInfo") as! NSFetchRequest<NSFetchRequestResult>)
+                    let _ = try? self.context.mainContext.execute(deleteRequest)
+                    try? self.context.mainContext.save()
+                    
+                    for song in fixedDatesTriples {
+                        let newSong = try! SongInfo.newSong(name: song.2, initialDate: song.0, endDate: song.1, context: self.context.mainContext)
+                        newSong.favorite = favoriteSongs.contains(song.2)
                     }
+                    
+                    try? self.context.mainContext.save()
                 }
-                
-//                let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
-//                fetchRequest.predicate = NSPredicate(format: "name IN %@", Array(songsDictionary.keys))
-//                let duplicates = try self.context.mainContext.fetch(fetchRequest)
-//                
-//                duplicates.forEach { savedSong in
-//                    
-//                    guard let savedSongName = savedSong.name else {
-//                        // FIXME: Why is a song saved in CoreData without a name? We should delete it.
-//                        return
-//                    }
-//                    
-//                    guard let airDates = songsDictionary[savedSongName] else {
-//                        // This should never happen.
-//                        return
-//                    }
-                
-//                    let newAirDateClosure = {
-//                        guard let newAirDate = AirDate(initialDate: airDates.0, endDate: airDates.1, context: self.context.mainContext) else { return }
-//                        
-//                        savedSong.addToAirDates(newAirDate)
-//                        songsDictionary.removeValue(forKey: savedSongName)
-//                    }
-//                    
-//                    guard let savedAirDates = savedSong.airDates, let savedAirDatesSet = savedAirDates as? Set<AirDate> else {
-//                        // FIXME: Why is a song saved in CoreData without airDates?
-//                        newAirDateClosure()
-//                        return
-//                    }
-//                    
-//                    guard savedAirDatesSet.count <= 0 else {
-//                        newAirDateClosure()
-//                        return
-//                    }
-//                    
-//                    for savedAirDate in savedAirDatesSet {
-//                        guard let savedInitialDate = savedAirDate.initialDate as Date? else { return }
-//                        guard savedInitialDate == airDates.0 else {
-//                            // FIXME: Why is a song saved in CoreData without an InitialDate?
-//                            return
-//                        }
-//                    }
-//                    
-//                    newAirDateClosure()
-//                }
-//                
-                let _ = songsDictionary.map { keyValuePair -> [NSManagedObject?] in
-                    return keyValuePair.value.map { (initial, end) -> NSManagedObject? in
-                        return try? SongInfo.newSong(name: keyValuePair.key, initialDate: initial, endDate: end, context: self.context.mainContext)
-                    }
-                }
-                
-               self.context.save()
                 
             } catch {
                 print("Invalid regex")
@@ -207,44 +159,49 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         let nextNSDay = nextDay as NSDate!
         print(newSelectedDate)
 
-        let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")//  AND
-        fetchRequest.predicate = NSPredicate(format: "(ANY airDates.initialDate >= %@) AND (ANY airDates.initialDate < %@)", newSelectedNSDate, nextNSDay!)
-        //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "airDates.initialDate", ascending: true)]
-        let results = try! self.context.mainContext.fetch(fetchRequest)
-        results.forEach { song in
-            song.airDates?.forEach{ (airDateAny) in
-                let airDate = airDateAny as! AirDate
-                print(song.name!, airDate.initialDate!)
-            }
-        }
+        let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
+        fetchRequest.predicate = NSPredicate(format: "(beginsAt >= %@) AND (beginsAt < %@)", newSelectedNSDate, nextNSDay!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beginsAt", ascending: true)]
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>, managedObjectContext: context.mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController?.delegate = self
 
-//        let fetchedResultsController = NSFetchedResultsController<NSFetchRequestResult>(entityName: "SongInfo")
-//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
-//        let nameSort = NSSortDescriptor(key: "name", ascending: true)
-//        request.sortDescriptors = [nameSort]
-//        
-//        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context.mainContext, sectionNameKeyPath: "name", cacheName: nil)
-//        fetchedResultsController.delegate = self
-//        
-//        do {
-//            try fetchedResultsController.performFetch()
-//        } catch {
-//            fatalError()
-//        }
+        do {
+            try fetchedResultsController?.performFetch()
+            tableView.reloadData()
+        } catch {
+            fatalError()
+        }
     }
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
-        let calendarHeightConstraint = NSLayoutConstraint()
-        calendarHeightConstraint.constant = bounds.size.height
+        calendarHeightConstraint.constant = bounds.height
         self.view.layoutIfNeeded()
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        guard let sections = fetchedResultsController?.sections else {
+            return 0
+        }
+        
+        return sections.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        guard let sections = fetchedResultsController?.sections else {
+            return 0
+        }
+        
+        return sections[section].numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "songCell")
+        let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        let beginHour = formatter.string(from: song.beginsAt! as Date)
+        cell?.textLabel?.text = song.name!
+        cell?.detailTextLabel?.text = beginHour
         return cell!
     }
     
@@ -252,4 +209,41 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         self.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension CalendarViewController {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .move:
+            break
+        case .update:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            tableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move:
+            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
 }

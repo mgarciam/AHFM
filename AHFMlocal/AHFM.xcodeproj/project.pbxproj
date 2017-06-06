@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F5B30D11EE71282003D1505 /* SongInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5B30CF1EE71282003D1505 /* SongInfo+CoreDataClass.swift */; };
+		8F5B30D21EE71282003D1505 /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5B30D01EE71282003D1505 /* SongInfo+CoreDataProperties.swift */; };
 		8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */; };
 		8F7111161EDC9C250017FE98 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7111151EDC9C250017FE98 /* Favorites.storyboard */; };
 		8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */; };
@@ -37,11 +39,6 @@
 		8FBBA7E21EDF46AC00A5E59B /* FSCalendarTransitionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBA7D01EDF46AC00A5E59B /* FSCalendarTransitionCoordinator.m */; };
 		8FBBA7E31EDF46AC00A5E59B /* FSCalendarWeekdayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBA7D21EDF46AC00A5E59B /* FSCalendarWeekdayView.m */; };
 		8FBBA7E41EDF46AC00A5E59B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FBBA7D31EDF46AC00A5E59B /* Info.plist */; };
-		8FF6A9E11EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9DD1EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift */; };
-		8FF6A9E21EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9DE1EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift */; };
-		8FF6A9E31EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9DF1EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift */; };
-		8FF6A9E41EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9E01EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift */; };
-		8FF6A9E61EDDD4FB00BAC6EC /* AirDate+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9E51EDDD4FB00BAC6EC /* AirDate+AHFM.swift */; };
 		8FF6A9E81EDDF0F500BAC6EC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F5B30CF1EE71282003D1505 /* SongInfo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8F5B30D01EE71282003D1505 /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SongInfo+AHFM.swift"; path = "AHFM/SongInfo+AHFM.swift"; sourceTree = "<group>"; };
 		8F7111151EDC9C250017FE98 /* Favorites.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
 		8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
@@ -116,11 +115,6 @@
 		8FBBA7D11EDF46AC00A5E59B /* FSCalendarWeekdayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarWeekdayView.h; sourceTree = SOURCE_ROOT; };
 		8FBBA7D21EDF46AC00A5E59B /* FSCalendarWeekdayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarWeekdayView.m; sourceTree = SOURCE_ROOT; };
 		8FBBA7D31EDF46AC00A5E59B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		8FF6A9DD1EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		8FF6A9DE1EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		8FF6A9DF1EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AirDate+CoreDataClass.swift"; sourceTree = "<group>"; };
-		8FF6A9E01EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AirDate+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		8FF6A9E51EDDD4FB00BAC6EC /* AirDate+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AirDate+AHFM.swift"; path = "AHFM/AirDate+AHFM.swift"; sourceTree = "<group>"; };
 		8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = AHFM/CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -251,10 +245,8 @@
 		8FF6A9E91EDDF48F00BAC6EC /* Autogenerated */ = {
 			isa = PBXGroup;
 			children = (
-				8FF6A9DD1EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift */,
-				8FF6A9DE1EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift */,
-				8FF6A9DF1EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift */,
-				8FF6A9E01EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift */,
+				8F5B30CF1EE71282003D1505 /* SongInfo+CoreDataClass.swift */,
+				8F5B30D01EE71282003D1505 /* SongInfo+CoreDataProperties.swift */,
 			);
 			name = Autogenerated;
 			sourceTree = "<group>";
@@ -265,7 +257,6 @@
 				8FF6A9E91EDDF48F00BAC6EC /* Autogenerated */,
 				8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */,
 				8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */,
-				8FF6A9E51EDDD4FB00BAC6EC /* AirDate+AHFM.swift */,
 			);
 			name = "Core Data";
 			path = ..;
@@ -409,7 +400,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FF6A9E31EDDD1DB00BAC6EC /* AirDate+CoreDataClass.swift in Sources */,
 				8FBBA7DD1EDF46AC00A5E59B /* FSCalendarDelegationProxy.m in Sources */,
 				8FBBA7DC1EDF46AC00A5E59B /* FSCalendarDelegationFactory.m in Sources */,
 				8FBBA7DA1EDF46AC00A5E59B /* FSCalendarCollectionViewLayout.m in Sources */,
@@ -418,7 +408,6 @@
 				8FBBA7E31EDF46AC00A5E59B /* FSCalendarWeekdayView.m in Sources */,
 				8FBBA7E11EDF46AC00A5E59B /* FSCalendarStickyHeader.m in Sources */,
 				8FBBA7D41EDF46AC00A5E59B /* FSCalendar.m in Sources */,
-				8FF6A9E11EDDD1DB00BAC6EC /* SongInfo+CoreDataClass.swift in Sources */,
 				8FF6A9E81EDDF0F500BAC6EC /* CoreDataStack.swift in Sources */,
 				8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */,
 				8FB769B31ED47DC4004BF989 /* ViewController.swift in Sources */,
@@ -427,16 +416,15 @@
 				8FBBA7E01EDF46AC00A5E59B /* FSCalendarScopeHandle.m in Sources */,
 				8FB769B91ED47DC4004BF989 /* AHFM.xcdatamodeld in Sources */,
 				8FBBA7D61EDF46AC00A5E59B /* FSCalendarAppearance.m in Sources */,
-				8FF6A9E21EDDD1DB00BAC6EC /* SongInfo+CoreDataProperties.swift in Sources */,
-				8FF6A9E41EDDD1DB00BAC6EC /* AirDate+CoreDataProperties.swift in Sources */,
 				8FBBA7DF1EDF46AC00A5E59B /* FSCalendarHeaderView.m in Sources */,
 				8FBBA7D51EDF46AC00A5E59B /* FSCalendar+Deprecated.m in Sources */,
 				8FBBA7D91EDF46AC00A5E59B /* FSCalendarCollectionView.m in Sources */,
+				8F5B30D21EE71282003D1505 /* SongInfo+CoreDataProperties.swift in Sources */,
 				8FB769B11ED47DC4004BF989 /* AppDelegate.swift in Sources */,
 				8FBBA7DB1EDF46AC00A5E59B /* FSCalendarConstants.m in Sources */,
 				8FBBA7D71EDF46AC00A5E59B /* FSCalendarCalculator.m in Sources */,
+				8F5B30D11EE71282003D1505 /* SongInfo+CoreDataClass.swift in Sources */,
 				8FBBA7D81EDF46AC00A5E59B /* FSCalendarCell.m in Sources */,
-				8FF6A9E61EDDD4FB00BAC6EC /* AirDate+AHFM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

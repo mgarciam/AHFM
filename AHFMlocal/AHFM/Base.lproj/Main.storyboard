@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aSv-e1-FSh">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -21,65 +21,97 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ms-If-GA3">
-                                <rect key="frame" x="277" y="35" width="82" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Calendar"/>
-                                <connections>
-                                    <action selector="didPressCalendarButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kpr-xd-zrg"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8X-38-tHK">
-                                <rect key="frame" x="164" y="306" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Play"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61q-Hw-jTx">
+                                <rect key="frame" x="0.0" y="577" width="375" height="90"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="zE3-VZ-Czw"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8X-38-tHK">
+                                <rect key="frame" x="164" y="607" width="46" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Play">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="didTouchPlayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5uG-xc-kzU"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6g2-TM-fm7">
-                                <rect key="frame" x="164" y="306" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Pause"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Rnf-xB-bin">
+                                <rect key="frame" x="0.0" y="64" width="375" height="513"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6g2-TM-fm7">
+                                <rect key="frame" x="164" y="607" width="46" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="SjD-VY-3z8"/>
+                                    <constraint firstAttribute="height" constant="30" id="tAR-bh-4a4"/>
+                                </constraints>
+                                <state key="normal" title="Pause">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="didTouchPauseButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7oi-Vh-RZ8"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cX3-jt-9iA">
-                                <rect key="frame" x="41" y="427" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NNG-R5-3Sl">
-                                <rect key="frame" x="277" y="405" width="55" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Favorite"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="glg-ur-oQe">
-                                <rect key="frame" x="23" y="149" width="78" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="78" id="r4N-R6-mmq"/>
-                                </constraints>
-                                <state key="normal" title="Favorites"/>
-                                <connections>
-                                    <action selector="didPressFavoritesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vb0-0M-tPB"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="p8X-38-tHK" firstAttribute="centerX" secondItem="6g2-TM-fm7" secondAttribute="centerX" id="2zf-P3-lNM"/>
+                            <constraint firstItem="6g2-TM-fm7" firstAttribute="centerY" secondItem="61q-Hw-jTx" secondAttribute="centerY" id="AnG-Ga-E6T"/>
+                            <constraint firstItem="p8X-38-tHK" firstAttribute="height" secondItem="6g2-TM-fm7" secondAttribute="height" id="BGf-E7-dpq"/>
+                            <constraint firstItem="61q-Hw-jTx" firstAttribute="top" secondItem="Rnf-xB-bin" secondAttribute="bottom" id="CaT-Mp-USI"/>
+                            <constraint firstAttribute="trailing" secondItem="Rnf-xB-bin" secondAttribute="trailing" id="Fg6-hh-eFR"/>
+                            <constraint firstItem="6g2-TM-fm7" firstAttribute="centerX" secondItem="61q-Hw-jTx" secondAttribute="centerX" id="GlE-sy-Shn"/>
+                            <constraint firstItem="p8X-38-tHK" firstAttribute="width" secondItem="6g2-TM-fm7" secondAttribute="width" id="Ldr-F2-a0t"/>
+                            <constraint firstItem="Rnf-xB-bin" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="MXB-LB-ANz"/>
+                            <constraint firstItem="61q-Hw-jTx" firstAttribute="centerX" secondItem="Rnf-xB-bin" secondAttribute="centerX" id="gBN-Co-wMl"/>
+                            <constraint firstItem="Rnf-xB-bin" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gyi-n3-aGP"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="61q-Hw-jTx" secondAttribute="bottom" id="oal-Ol-dzC"/>
+                            <constraint firstItem="p8X-38-tHK" firstAttribute="centerY" secondItem="6g2-TM-fm7" secondAttribute="centerY" id="sUD-4M-MDe"/>
+                            <constraint firstItem="61q-Hw-jTx" firstAttribute="width" secondItem="Rnf-xB-bin" secondAttribute="width" id="tNq-Ua-dQ0"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="6QS-rH-RBR"/>
+                    <navigationItem key="navigationItem" id="6QS-rH-RBR">
+                        <barButtonItem key="leftBarButtonItem" title="Favorites" id="hQB-Se-zU9">
+                            <connections>
+                                <action selector="didPressFavoritesButton:" destination="BYZ-38-t0r" id="dvL-Lp-5PT"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Calendar" id="1sJ-DI-VX1">
+                            <connections>
+                                <action selector="didPressCalendarButton:" destination="BYZ-38-t0r" id="Akd-FZ-AcS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="pauseButton" destination="6g2-TM-fm7" id="16b-Jv-uAf"/>
                         <outlet property="playButton" destination="p8X-38-tHK" id="Lzn-AC-5Vm"/>
-                        <outlet property="titleLabel" destination="cX3-jt-9iA" id="3Rp-TE-n30"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1996" y="123.68815592203899"/>
+            <point key="canvasLocation" x="3874.4000000000001" y="123.68815592203899"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="JfQ-li-e1O">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aSv-e1-FSh" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sMy-am-WlC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="xh2-yP-Y4u"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fdN-RW-o3T" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2935.1999999999998" y="123.68815592203899"/>
         </scene>
     </scenes>
 </document>
