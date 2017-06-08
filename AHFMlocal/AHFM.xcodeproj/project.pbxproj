@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8F5B30D11EE71282003D1505 /* SongInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5B30CF1EE71282003D1505 /* SongInfo+CoreDataClass.swift */; };
 		8F5B30D21EE71282003D1505 /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5B30D01EE71282003D1505 /* SongInfo+CoreDataProperties.swift */; };
+		8F6F77F21EE9B24700792D86 /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6F77F11EE9B24700792D86 /* SongCell.swift */; };
 		8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */; };
 		8F7111161EDC9C250017FE98 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7111151EDC9C250017FE98 /* Favorites.storyboard */; };
 		8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		8F5B30CF1EE71282003D1505 /* SongInfo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8F5B30D01EE71282003D1505 /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8F6F77F11EE9B24700792D86 /* SongCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
 		8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SongInfo+AHFM.swift"; path = "AHFM/SongInfo+AHFM.swift"; sourceTree = "<group>"; };
 		8F7111151EDC9C250017FE98 /* Favorites.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
 		8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				8FF6A9EA1EDDF49A00BAC6EC /* Core Data */,
 				8FB769B01ED47DC4004BF989 /* AppDelegate.swift */,
+				8F6F77F11EE9B24700792D86 /* SongCell.swift */,
 				8FB769B21ED47DC4004BF989 /* ViewController.swift */,
 				8FB769E51ED4AA91004BF989 /* CalendarViewController.swift */,
 				8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */,
@@ -414,6 +417,7 @@
 				8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */,
 				8FBBA7E21EDF46AC00A5E59B /* FSCalendarTransitionCoordinator.m in Sources */,
 				8FBBA7E01EDF46AC00A5E59B /* FSCalendarScopeHandle.m in Sources */,
+				8F6F77F21EE9B24700792D86 /* SongCell.swift in Sources */,
 				8FB769B91ED47DC4004BF989 /* AHFM.xcdatamodeld in Sources */,
 				8FBBA7D61EDF46AC00A5E59B /* FSCalendarAppearance.m in Sources */,
 				8FBBA7DF1EDF46AC00A5E59B /* FSCalendarHeaderView.m in Sources */,

@@ -32,13 +32,7 @@
                             <outlet property="delegate" destination="BVn-d8-tFg" id="9zP-lR-1Le"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Sn2-Kr-qa5">
-                        <barButtonItem key="leftBarButtonItem" title="Close" id="65D-UH-6b3">
-                            <connections>
-                                <action selector="didPressCloseButton:" destination="BVn-d8-tFg" id="bkl-35-Rdd"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Sn2-Kr-qa5"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lay-XU-6bq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

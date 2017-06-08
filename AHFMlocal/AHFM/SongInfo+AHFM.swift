@@ -19,6 +19,7 @@ extension SongInfo {
         newSong.name = name
         newSong.beginsAt = initialDate as NSDate
         newSong.endsAt = endDate as NSDate
+        newSong.favorite = false
         return newSong
     }
 }

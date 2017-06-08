@@ -19,6 +19,7 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
+    
     class func newCalendarVC(context: CoreDataStack) -> CalendarViewController {
         let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
         calendar.context = context
@@ -204,11 +205,6 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         cell?.detailTextLabel?.text = beginHour
         return cell!
     }
-    
-    @IBAction func didPressCloseButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
 }
 
 extension CalendarViewController {

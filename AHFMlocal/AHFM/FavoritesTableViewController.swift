@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 import CoreData
 
-class FavoritesTableViewController: UITableViewController {
+class FavoritesTableViewController: UITableViewController, FavoriteToggleDelegate {
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
     private var context: CoreDataStack!
+    let streamViewController = ViewController()
     
     class func newFavoritesVC(context: CoreDataStack) -> FavoritesTableViewController {
         let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
@@ -25,7 +26,7 @@ class FavoritesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
-        request.predicate = NSPredicate.init(format: "favorite == true")
+        request.predicate = NSPredicate(format: "favorite == true")
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         
@@ -37,6 +38,8 @@ class FavoritesTableViewController: UITableViewController {
         } catch {
             fatalError()
         }
+        
+        streamViewController.favoriteDelegate = self
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -62,8 +65,10 @@ class FavoritesTableViewController: UITableViewController {
         return cell
     }
     
-    @IBAction func didPressCloseButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+    func changeStateOfSong(state: Bool) {
+        self.context.mainContext.perform { 
+            
+        }
     }
 }
 
