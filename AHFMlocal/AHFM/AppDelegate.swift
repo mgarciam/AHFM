@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         let controller = window!.rootViewController as! UINavigationController
-        let streamingVC = controller.topViewController as! ViewController
+        let streamingVC = controller.topViewController as! StreamViewController
         
         streamingVC.context = coreDataStack
         

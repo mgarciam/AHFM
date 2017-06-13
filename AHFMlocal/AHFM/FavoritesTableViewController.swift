@@ -10,11 +10,10 @@ import Foundation
 import UIKit
 import CoreData
 
-class FavoritesTableViewController: UITableViewController, FavoriteToggleDelegate {
+class FavoritesTableViewController: UITableViewController {
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
-    private var context: CoreDataStack!
-    let streamViewController = ViewController()
+    var context: CoreDataStack!
     
     class func newFavoritesVC(context: CoreDataStack) -> FavoritesTableViewController {
         let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
@@ -24,7 +23,7 @@ class FavoritesTableViewController: UITableViewController, FavoriteToggleDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
         request.predicate = NSPredicate(format: "favorite == true")
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
@@ -39,7 +38,17 @@ class FavoritesTableViewController: UITableViewController, FavoriteToggleDelegat
             fatalError()
         }
         
-        streamViewController.favoriteDelegate = self
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            
+            self.tableView.visibleCells.forEach { (cell) in
+                let songCell = cell as! SongCell
+                songCell.layoutIfNeeded()
+                songCell.leadingHoursSeparatorConstraint.constant = -10
+                UIView.animate(withDuration: 0.33) {
+                    songCell.layoutIfNeeded()
+                }
+            }
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -59,18 +68,43 @@ class FavoritesTableViewController: UITableViewController, FavoriteToggleDelegat
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
         let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
-        cell.textLabel?.text = song.name
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        let beginHour = formatter.string(from: song.beginsAt! as Date)
+        let endHour = formatter.string(from: song.endsAt! as Date)
+        cell.nameLabel.text = song.name!
+        cell.beginHourLabel.text = beginHour
+        cell.endHourLabel.text = endHour
+        cell.infoDelegate = self
         return cell
     }
-    
-    func changeStateOfSong(state: Bool) {
-        self.context.mainContext.perform { 
+}
+
+extension FavoritesTableViewController : SongInfoDelegate {
+    func showInfo(_ cell: SongCell) {
+        
+        guard let managedObjectIndexPath = tableView.indexPath(for: cell) else { return }
+        let song = self.fetchedResultsController?.object(at: managedObjectIndexPath) as! SongInfo
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: song.favorite ? "Unfavorite" : "Favorite", style: .default) { action in
             
-        }
+            guard let songContext = song.managedObjectContext else { return }
+            
+            songContext.perform {
+                song.favorite = !song.favorite
+                self.context.save(context: songContext)
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "Notify me", style: .default))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert, animated: true, completion: nil)
     }
 }
+
 
 extension FavoritesTableViewController : NSFetchedResultsControllerDelegate {
     

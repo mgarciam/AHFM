@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,13 +20,81 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="6gO-Pb-2T2">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="bth-EJ-Cgh" customClass="SongCell" customModule="AHFM" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6gO-Pb-2T2" id="qer-kK-KjB">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bth-EJ-Cgh" id="F2a-H0-sWz">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beginHour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMk-mw-Lh6">
+                                            <rect key="frame" x="16" y="0.0" width="70" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="70" id="Gvl-s0-LDi"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="endHour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n3k-pG-FSf">
+                                            <rect key="frame" x="16" y="22" width="70" height="22"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFb-ec-vEm">
+                                            <rect key="frame" x="116" y="-0.5" width="153" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLd-ew-lr8">
+                                            <rect key="frame" x="279" y="11" width="22" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="22" id="8Sq-Cr-cCR"/>
+                                                <constraint firstAttribute="height" constant="22" id="GJh-am-gOk"/>
+                                            </constraints>
+                                            <connections>
+                                                <action selector="didPressInfoButton:" destination="bth-EJ-Cgh" eventType="touchUpInside" id="3bo-ei-DJU"/>
+                                            </connections>
+                                        </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RlV-oF-G7A">
+                                            <rect key="frame" x="85" y="0.0" width="1" height="44"/>
+                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="1" id="X5F-Jh-udt"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="XFb-ec-vEm" firstAttribute="centerY" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="1Zc-bv-eMz"/>
+                                        <constraint firstItem="RlV-oF-G7A" firstAttribute="leading" secondItem="F2a-H0-sWz" secondAttribute="leading" constant="85" id="6uD-3O-D3L"/>
+                                        <constraint firstItem="iMk-mw-Lh6" firstAttribute="top" secondItem="RlV-oF-G7A" secondAttribute="top" id="7FD-nw-6GG"/>
+                                        <constraint firstItem="iMk-mw-Lh6" firstAttribute="bottom" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="Jhi-na-RdM"/>
+                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="top" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="LjT-Rz-kHM"/>
+                                        <constraint firstItem="XFb-ec-vEm" firstAttribute="leading" secondItem="RlV-oF-G7A" secondAttribute="trailing" constant="30" id="TbF-Qz-jea"/>
+                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="bottom" secondItem="RlV-oF-G7A" secondAttribute="bottom" id="UMu-VN-R6m"/>
+                                        <constraint firstItem="oLd-ew-lr8" firstAttribute="leading" secondItem="XFb-ec-vEm" secondAttribute="trailing" constant="10" id="UT6-z7-9JS"/>
+                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="centerX" secondItem="iMk-mw-Lh6" secondAttribute="centerX" id="bzP-lY-f3q"/>
+                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="width" secondItem="iMk-mw-Lh6" secondAttribute="width" id="gTg-4S-07T"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="oLd-ew-lr8" secondAttribute="trailing" constant="11" id="lqa-xK-9rH"/>
+                                        <constraint firstItem="XFb-ec-vEm" firstAttribute="height" secondItem="RlV-oF-G7A" secondAttribute="height" id="nf2-WH-txZ"/>
+                                        <constraint firstItem="iMk-mw-Lh6" firstAttribute="trailing" secondItem="RlV-oF-G7A" secondAttribute="trailing" id="v4S-qY-KL9"/>
+                                        <constraint firstItem="oLd-ew-lr8" firstAttribute="centerY" secondItem="F2a-H0-sWz" secondAttribute="centerY" id="ve8-SW-ief"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <constraints>
+                                    <constraint firstItem="RlV-oF-G7A" firstAttribute="centerY" secondItem="bth-EJ-Cgh" secondAttribute="centerY" id="NHj-zR-RkG"/>
+                                    <constraint firstItem="RlV-oF-G7A" firstAttribute="height" secondItem="bth-EJ-Cgh" secondAttribute="height" id="yF1-Ur-StO"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="beginHourLabel" destination="iMk-mw-Lh6" id="sLL-Cs-5jb"/>
+                                    <outlet property="endHourLabel" destination="n3k-pG-FSf" id="qBx-ST-bBX"/>
+                                    <outlet property="infoButton" destination="oLd-ew-lr8" id="St2-VL-rLC"/>
+                                    <outlet property="leadingHoursSeparatorConstraint" destination="6uD-3O-D3L" id="Am0-aQ-GSe"/>
+                                    <outlet property="nameLabel" destination="XFb-ec-vEm" id="PFo-GO-waX"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

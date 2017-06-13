@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol SongInfoDelegate {
+    func showInfo(_ cell: SongCell)
+}
+
 class SongCell: UITableViewCell {
     
     @IBOutlet weak var beginHourLabel: UILabel!
@@ -16,4 +20,10 @@ class SongCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var leadingHoursSeparatorConstraint: NSLayoutConstraint!
+    var infoDelegate: SongInfoDelegate!
+    
+    @IBAction func didPressInfoButton(_ sender: Any) {
+        infoDelegate.showInfo(self)
+    }
 }
+
