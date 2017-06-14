@@ -17,7 +17,6 @@ class StreamViewController: UIViewController {
     
     var context: CoreDataStack!
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-    var streamingSongTitle = "AH.FM"
     
     lazy var songDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -29,6 +28,9 @@ class StreamViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var divisionView: UIView!
+    @IBOutlet weak var currentSongView: UIView!
+    @IBOutlet weak var currentlyLabel: UILabel!
+    @IBOutlet weak var currentSongTitleLabel: UILabel!
     
     enum StreamState {
         case playing
@@ -60,16 +62,44 @@ class StreamViewController: UIViewController {
                 return false
             }
         }
+        
+        var currentSongViewIsHidden: Bool {
+            switch self {
+            case .playing:
+                return false
+            case .paused:
+                return true
+            }
+        }
+        
+        var currentlyLabelIsHidden: Bool {
+            switch self {
+            case .playing:
+                return false
+            case .paused:
+                return true
+            }
+        }
+        
+        var currentSongTitleLabelIsHidden: Bool {
+            switch self {
+            case .playing:
+                return false
+            case .paused:
+                return true
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let parser = Parser.newParser(context: context)
+        parser.parseFile()
         updateUI(.paused)
         
         let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
         
-        // The "UP NEXT" section displays songs scheduled in the next 24 hours.
+        // The "UP NEXT" section displays songs scheduled for the rest of the day.
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         calendar?.timeZone = .current
         let date = Date()
@@ -95,6 +125,9 @@ class StreamViewController: UIViewController {
         pauseButton.isHidden = state.pauseButtonIsHidden
         tableView.isHidden = state.tableViewIsHidden
         playButton.isHidden = state.playButtonIsHidden
+        currentSongView.isHidden = state.currentSongViewIsHidden
+        currentlyLabel.isHidden = state.currentlyLabelIsHidden
+        currentSongTitleLabel.isHidden = state.currentSongTitleLabelIsHidden
         
         if state == .playing {
             // Initially display the song initial and end hour and then moves them offscreen.
@@ -113,8 +146,6 @@ class StreamViewController: UIViewController {
     }
     
     @IBAction func didTouchPlayButton(_ sender: Any) {
-        let parser = Parser.newParser(context: context)
-        parser.parseFile()
         guard let streamItem = player.currentItem else { return }
         streamItem.addObserver(self, forKeyPath: "timedMetadata", options: .new, context: nil)
         
@@ -149,7 +180,7 @@ class StreamViewController: UIViewController {
             let AVItem = item as? AVPlayerItem else { return }
         
         AVItem.timedMetadata?.forEach { item in
-            streamingSongTitle = item.stringValue!
+            currentSongTitleLabel.text = item.stringValue!
             tableView.reloadData()
         }
     }
@@ -162,51 +193,36 @@ extension StreamViewController : UITableViewDelegate, UITableViewDataSource {
             return 0
         }
         
-        return sections.count + 1
+        return sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sections = fetchedResultsController?.sections else {
             return 0
         }
-        
-        if section == 0 {
-            return 1
-        }
-        
-        return sections[sectionForFetchedResults(section)].numberOfObjects
+
+        return sections[section].numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
         
-        guard indexPath.section == 0 else {
-            let song = self.fetchedResultsController?.object(at: indexPathForFetchedResults(indexPath)) as! SongInfo
-            let beginHour = songDateFormatter.string(from: song.beginsAt! as Date)
-            let endHour = songDateFormatter.string(from: song.endsAt! as Date)
+        let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
+        let beginHour = songDateFormatter.string(from: song.beginsAt! as Date)
+        let endHour = songDateFormatter.string(from: song.endsAt! as Date)
             
-            cell.nameLabel.text = song.name!
-            cell.beginHourLabel.text = beginHour
-            cell.endHourLabel.text = endHour
-            cell.infoDelegate = self
-            cell.beginHourLabel.isHidden = false
-            cell.endHourLabel.isHidden = false
-       
-            return cell
-            
-        }
-        
-        cell.nameLabel.text = streamingSongTitle
-        cell.beginHourLabel.isHidden = true
-        cell.endHourLabel.isHidden = true
-  
+        cell.nameLabel.text = song.name!
+        cell.beginHourLabel.text = beginHour
+        cell.endHourLabel.text = endHour
         cell.infoDelegate = self
-        
+        cell.beginHourLabel.isHidden = false
+        cell.endHourLabel.isHidden = false
+       
         return cell
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? NSLocalizedString("CURRENTLY", comment: "") : NSLocalizedString("UP NEXT", comment: "")
+        return "UP NEXT"
     }
 }
 
@@ -214,8 +230,7 @@ extension StreamViewController : SongInfoDelegate {
     
     func showInfo(_ cell: SongCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let managedObjectIndexPath = indexPathForFetchedResults(indexPath)
-        let song = self.fetchedResultsController?.object(at: managedObjectIndexPath) as! SongInfo
+        let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: song.favorite ? NSLocalizedString("Unfavorite", comment: "") : NSLocalizedString("Favorite", comment: ""), style: .default) { action in
@@ -228,14 +243,22 @@ extension StreamViewController : SongInfoDelegate {
             }
         })
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Notify me", comment: ""), style: .default) { action in
+        alert.addAction(UIAlertAction(title: song.notification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
             let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
             let fetchedSongs = try? self.context.mainContext.fetch(request)
+            
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
                 (granted, error) in
                 if !granted {
                     print("error")
                 }
+            }
+            
+            guard let songContext = song.managedObjectContext else { return }
+            
+            songContext.perform {
+                song.notification = !song.notification
+                self.context.save(context: songContext)
             }
             
             var matchingSong = SongInfo()
@@ -260,15 +283,7 @@ extension StreamViewController : SongInfoDelegate {
 }
 
 extension StreamViewController : NSFetchedResultsControllerDelegate {
-    
-    fileprivate func sectionForFetchedResults(_ section: Int) -> Int {
-        return section - 1
-    }
-    
-    fileprivate func indexPathForFetchedResults(_ indexPath: IndexPath) -> IndexPath {
-        return IndexPath(row: indexPath.row, section: indexPath.section - 1)
-    }
-    
+
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -277,11 +292,12 @@ extension StreamViewController : NSFetchedResultsControllerDelegate {
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
                     for type: NSFetchedResultsChangeType) {
+        
         switch type {
         case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex + 1), with: .fade)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
         case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex + 1), with: .fade)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
         case .move:
             break
         case .update:
@@ -292,14 +308,14 @@ extension StreamViewController : NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            tableView.insertRows(at: [indexPathForFetchedResults(newIndexPath!)], with: .fade)
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
         case .delete:
-            tableView.deleteRows(at: [indexPathForFetchedResults(indexPath!)], with: .fade)
+            tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
-            tableView.reloadRows(at: [indexPathForFetchedResults(indexPath!)], with: .fade)
+            tableView.reloadRows(at: [indexPath!], with: .fade)
         case .move:
-            tableView.moveRow(at: indexPathForFetchedResults(indexPath!),
-                              to: indexPathForFetchedResults(newIndexPath!))
+            tableView.moveRow(at: indexPath!,
+                              to: newIndexPath!)
         }
     }
     
