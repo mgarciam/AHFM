@@ -9,11 +9,18 @@
 import Foundation
 import UIKit
 import CoreData
+import UserNotifications
 
 class FavoritesTableViewController: UITableViewController {
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
     var context: CoreDataStack!
+    
+    lazy var songDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
+    }()
     
     class func newFavoritesVC(context: CoreDataStack) -> FavoritesTableViewController {
         let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
@@ -23,17 +30,18 @@ class FavoritesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let now = NSDate()
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
-        request.predicate = NSPredicate(format: "favorite == true")
+        request.predicate = NSPredicate(format: "(favorite == true) OR ((notification == true) AND (beginsAt > %@))", now)
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [nameSort]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context.mainContext, sectionNameKeyPath: "name", cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context.mainContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {
             try fetchedResultsController.performFetch()
+
         } catch {
             fatalError()
         }
@@ -70,10 +78,9 @@ class FavoritesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
         let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        let beginHour = formatter.string(from: song.beginsAt! as Date)
-        let endHour = formatter.string(from: song.endsAt! as Date)
+        let beginHour = songDateFormatter.string(from: song.beginsAt! as Date)
+        let endHour = songDateFormatter.string(from: song.endsAt! as Date)
+        
         cell.nameLabel.text = song.name!
         cell.beginHourLabel.text = beginHour
         cell.endHourLabel.text = endHour
@@ -87,8 +94,8 @@ extension FavoritesTableViewController : SongInfoDelegate {
         
         guard let managedObjectIndexPath = tableView.indexPath(for: cell) else { return }
         let song = self.fetchedResultsController?.object(at: managedObjectIndexPath) as! SongInfo
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         alert.addAction(UIAlertAction(title: song.favorite ? "Unfavorite" : "Favorite", style: .default) { action in
             
             guard let songContext = song.managedObjectContext else { return }
@@ -99,7 +106,43 @@ extension FavoritesTableViewController : SongInfoDelegate {
             }
         })
         
-        alert.addAction(UIAlertAction(title: "Notify me", style: .default))
+        alert.addAction(UIAlertAction(title: song.notification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
+            
+            let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
+            let fetchedSongs = try? self.context.mainContext.fetch(request)
+            let now = Date()
+            
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
+                (granted, error) in
+                if !granted {
+                    print("error")
+                }
+            }
+            
+            var matchingSong: SongInfo!
+            fetchedSongs?.forEach { fetchedSong in
+                if song.name! == fetchedSong.name! && fetchedSong.beginsAt! as Date > now {
+                    matchingSong = fetchedSong
+                }
+            }
+            
+            let content = UNMutableNotificationContent()
+            let calendar = NSCalendar.current
+            let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: matchingSong.beginsAt! as Date)
+            content.title = matchingSong.name!
+            content.body = "Is playing now!"
+            content.sound = UNNotificationSound.default()
+            let _ = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+            
+            guard let songContext = song.managedObjectContext else { return }
+            
+            songContext.perform {
+                song.notification = !song.notification
+                self.context.save(context: songContext)
+            }
+
+        })
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(alert, animated: true, completion: nil)
     }

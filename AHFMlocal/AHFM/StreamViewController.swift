@@ -14,7 +14,7 @@ import UserNotifications
 class StreamViewController: UIViewController {
 
     let player = AVPlayer(playerItem: AVPlayerItem(url: URL(string: "http://us2.ah.fm:443")!))
-    
+
     var context: CoreDataStack!
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
@@ -93,8 +93,9 @@ class StreamViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let parser = Parser.newParser(context: context)
-        parser.parseFile()
+        
+        let _ = Parser.newParser(context: context)
+        
         updateUI(.paused)
         
         let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
@@ -181,7 +182,6 @@ class StreamViewController: UIViewController {
         
         AVItem.timedMetadata?.forEach { item in
             currentSongTitleLabel.text = item.stringValue!
-            tableView.reloadData()
         }
     }
 }
@@ -215,8 +215,6 @@ extension StreamViewController : UITableViewDelegate, UITableViewDataSource {
         cell.beginHourLabel.text = beginHour
         cell.endHourLabel.text = endHour
         cell.infoDelegate = self
-        cell.beginHourLabel.isHidden = false
-        cell.endHourLabel.isHidden = false
        
         return cell
     }
@@ -231,8 +229,8 @@ extension StreamViewController : SongInfoDelegate {
     func showInfo(_ cell: SongCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         alert.addAction(UIAlertAction(title: song.favorite ? NSLocalizedString("Unfavorite", comment: "") : NSLocalizedString("Favorite", comment: ""), style: .default) { action in
             
             guard let songContext = song.managedObjectContext else { return }
@@ -244,9 +242,11 @@ extension StreamViewController : SongInfoDelegate {
         })
         
         alert.addAction(UIAlertAction(title: song.notification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
+            
             let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
             let fetchedSongs = try? self.context.mainContext.fetch(request)
-            
+            let now = Date()
+
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
                 (granted, error) in
                 if !granted {
@@ -254,16 +254,9 @@ extension StreamViewController : SongInfoDelegate {
                 }
             }
             
-            guard let songContext = song.managedObjectContext else { return }
-            
-            songContext.perform {
-                song.notification = !song.notification
-                self.context.save(context: songContext)
-            }
-            
-            var matchingSong = SongInfo()
+            var matchingSong: SongInfo!
             fetchedSongs?.forEach { fetchedSong in
-                if song.name! == fetchedSong.name! {
+                if song.name! == fetchedSong.name! && fetchedSong.beginsAt! as Date > now {
                     matchingSong = fetchedSong
                 }
             }
@@ -275,6 +268,13 @@ extension StreamViewController : SongInfoDelegate {
             content.body = "Is playing now!"
             content.sound = UNNotificationSound.default()
             let _ = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+            
+            guard let songContext = song.managedObjectContext else { return }
+            
+            songContext.perform {
+                song.notification = !song.notification
+                self.context.save(context: songContext)
+            }
         })
     
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))

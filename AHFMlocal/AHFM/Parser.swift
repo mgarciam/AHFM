@@ -110,11 +110,12 @@ class Parser {
                 }
                 
                 self.context.mainContext.perform {
+                    let now = NSDate()
                     let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
-                    fetchRequest.predicate = NSPredicate(format: "favorite == true")
+                    fetchRequest.predicate = NSPredicate(format: "(favorite == true) OR ((notification == true) AND (beginsAt > %@))", now)
                     let results = try! self.context.mainContext.fetch(fetchRequest)
                     
-                    let favoriteSongs = results.map { (savedSong) -> String? in
+                    let savedSongs = results.map { (savedSong) -> String? in
                         return savedSong.name
                         }.flatMap { $0 }
                     
@@ -124,7 +125,7 @@ class Parser {
                     
                     for song in fixedDatesTriples {
                         let newSong = try! SongInfo.newSong(name: song.2, initialDate: song.0, endDate: song.1, context: self.context.mainContext)
-                        newSong.favorite = favoriteSongs.contains(song.2)
+                        newSong.favorite = savedSongs.contains(song.2)
                     }
                     
                     try? self.context.mainContext.save()

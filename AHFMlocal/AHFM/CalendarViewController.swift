@@ -9,11 +9,18 @@
 import Foundation
 import UIKit
 import CoreData
+import UserNotifications
 
-class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, SongInfoDelegate {
     
     private var context: CoreDataStack!
     private var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    
+    lazy var songDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
+    }()
   
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
@@ -31,6 +38,7 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+
         guard let selectedDate = calendar.selectedDate else { return }
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         calendar?.timeZone = .current
@@ -38,7 +46,6 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         let newSelectedNSDate = newSelectedDate as NSDate
         let nextDay = calendar?.date(byAdding: .day, value: 1, to: newSelectedNSDate as Date)
         let nextNSDay = nextDay as NSDate!
-        print(newSelectedDate)
 
         let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
         fetchRequest.predicate = NSPredicate(format: "(beginsAt >= %@) AND (beginsAt < %@)", newSelectedNSDate, nextNSDay!)
@@ -76,15 +83,74 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "songCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
         let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        let beginHour = formatter.string(from: song.beginsAt! as Date)
-        cell?.textLabel?.text = song.name!
-        cell?.detailTextLabel?.text = beginHour
-        return cell!
+        let beginHour = songDateFormatter.string(from: song.beginsAt! as Date)
+        let endHour = songDateFormatter.string(from: song.endsAt! as Date)
+        
+        cell.nameLabel.text = song.name!
+        cell.beginHourLabel.text = beginHour
+        cell.endHourLabel.text = endHour
+        cell.infoDelegate = self
+        return cell
     }
+    
+    func showInfo(_ cell: SongCell) {
+        
+        guard let managedObjectIndexPath = tableView.indexPath(for: cell) else { return }
+        let song = self.fetchedResultsController?.object(at: managedObjectIndexPath) as! SongInfo
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: song.favorite ? "Unfavorite" : "Favorite", style: .default) { action in
+            
+            guard let songContext = song.managedObjectContext else { return }
+            
+            songContext.perform {
+                song.favorite = !song.favorite
+                self.context.save(context: songContext)
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: song.notification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
+        
+            let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
+            let fetchedSongs = try? self.context.mainContext.fetch(request)
+            let now = Date()
+            
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
+                (granted, error) in
+                if !granted {
+                    print("error")
+                }
+            }
+            
+            var matchingSong: SongInfo!
+            fetchedSongs?.forEach { fetchedSong in
+                if song.name! == fetchedSong.name! && fetchedSong.beginsAt! as Date > now {
+                    matchingSong = fetchedSong
+                }
+            }
+ 
+            let content = UNMutableNotificationContent()
+            let calendar = NSCalendar.current
+            let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: matchingSong.beginsAt! as Date)
+            content.title = matchingSong.name!
+            content.body = "Is playing now!"
+            content.sound = UNNotificationSound.default()
+            let _ = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+            
+            guard let songContext = song.managedObjectContext else { return }
+            
+            songContext.perform {
+                song.notification = !song.notification
+                self.context.save(context: songContext)
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert, animated: true, completion: nil)
+    }
+
 }
 
 extension CalendarViewController {

@@ -22,6 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         streamingVC.context = coreDataStack
         
+        if !UserDefaults.standard.bool(forKey: "HasJustBeenInstalled") {
+            let parser = Parser.newParser(context: streamingVC.context)
+            parser.parseFile()
+            UserDefaults.standard.set(true, forKey: "HasJustBeenInstalled")
+            UserDefaults.standard.synchronize()
+        }
+        
         return true
     }
 
