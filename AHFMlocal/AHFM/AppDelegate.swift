@@ -9,6 +9,24 @@
 import UIKit
 import CoreData
 
+extension NSNotification.Name {
+    
+    enum ScheduleNotifications {
+        case didUpdate
+        
+        var rawValue: String {
+            switch self {
+            case .didUpdate:
+                return "ScheduleNotificationDidUpdate"
+            }
+        }
+    }
+    
+    init(schedule: ScheduleNotifications) {
+        self = NSNotification.Name(rawValue: schedule.rawValue)
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -22,11 +40,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         streamingVC.context = coreDataStack
         
-        if !UserDefaults.standard.bool(forKey: "HasJustBeenInstalled") {
-            let parser = Parser.newParser(context: streamingVC.context)
-            parser.parseFile()
-            UserDefaults.standard.set(true, forKey: "HasJustBeenInstalled")
-            UserDefaults.standard.synchronize()
+        ScheduleViewModel.download(URL(string: "http://ah.fm/stats/mobileschedule.txt")!) { status in
+            switch status {
+                
+            case .failureDataIsNil, .failureDataIsNotString:
+                print("Data error")
+                
+            case .failureNetworkError(let downloadError):
+                print("Download Error: \(downloadError)")
+                
+            case .success(let schedule):
+                DispatchQueue.global(qos: .userInteractive).async {
+                    guard let parsedSongs = try? ScheduleViewModel.parse(schedule: schedule as NSString) else { return }
+                    self.coreDataStack.save(songs: parsedSongs, context: self.coreDataStack.mainContext) {
+                        NotificationCenter.default.post(name: NSNotification.Name.init(schedule: .didUpdate),
+                                                        object: nil)
+                    }
+                }
+            }
         }
         
         return true

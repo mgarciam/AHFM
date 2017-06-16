@@ -40,7 +40,7 @@
 		8FBBA7E21EDF46AC00A5E59B /* FSCalendarTransitionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBA7D01EDF46AC00A5E59B /* FSCalendarTransitionCoordinator.m */; };
 		8FBBA7E31EDF46AC00A5E59B /* FSCalendarWeekdayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBA7D21EDF46AC00A5E59B /* FSCalendarWeekdayView.m */; };
 		8FBBA7E41EDF46AC00A5E59B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FBBA7D31EDF46AC00A5E59B /* Info.plist */; };
-		8FEDC7EB1EF0589800739784 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDC7EA1EF0589800739784 /* Parser.swift */; };
+		8FEDC7EB1EF0589800739784 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEDC7EA1EF0589800739784 /* ScheduleViewModel.swift */; };
 		8FF6A9E81EDDF0F500BAC6EC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
@@ -118,7 +118,7 @@
 		8FBBA7D11EDF46AC00A5E59B /* FSCalendarWeekdayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarWeekdayView.h; sourceTree = SOURCE_ROOT; };
 		8FBBA7D21EDF46AC00A5E59B /* FSCalendarWeekdayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarWeekdayView.m; sourceTree = SOURCE_ROOT; };
 		8FBBA7D31EDF46AC00A5E59B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		8FEDC7EA1EF0589800739784 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		8FEDC7EA1EF0589800739784 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		8FF6A9E71EDDF0F500BAC6EC /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = AHFM/CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,7 +172,7 @@
 			children = (
 				8FF6A9EA1EDDF49A00BAC6EC /* Core Data */,
 				8FB769B01ED47DC4004BF989 /* AppDelegate.swift */,
-				8FEDC7EA1EF0589800739784 /* Parser.swift */,
+				8FEDC7EA1EF0589800739784 /* ScheduleViewModel.swift */,
 				8F6F77F11EE9B24700792D86 /* SongCell.swift */,
 				8FB769B21ED47DC4004BF989 /* StreamViewController.swift */,
 				8FB769E51ED4AA91004BF989 /* CalendarViewController.swift */,
@@ -429,7 +429,7 @@
 				8FBBA7D91EDF46AC00A5E59B /* FSCalendarCollectionView.m in Sources */,
 				8FB769B11ED47DC4004BF989 /* AppDelegate.swift in Sources */,
 				8FBBA7DB1EDF46AC00A5E59B /* FSCalendarConstants.m in Sources */,
-				8FEDC7EB1EF0589800739784 /* Parser.swift in Sources */,
+				8FEDC7EB1EF0589800739784 /* ScheduleViewModel.swift in Sources */,
 				8FBBA7D71EDF46AC00A5E59B /* FSCalendarCalculator.m in Sources */,
 				8F044A721EF0E10900239316 /* SongInfo+CoreDataProperties.swift in Sources */,
 				8FBBA7D81EDF46AC00A5E59B /* FSCalendarCell.m in Sources */,

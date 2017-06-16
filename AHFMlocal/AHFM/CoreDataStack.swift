@@ -63,3 +63,54 @@ class CoreDataStack {
         }
     }
 }
+
+extension CoreDataStack {
+    
+    func save(songs: [ParsedSong], context: NSManagedObjectContext, completion: @escaping () -> Void) {
+        
+        context.perform {
+            
+            // Before we delete all songs, save the songs marked as favorite or notifications.
+            var favorites = [String]()
+            var notifications = [String]()
+            
+            // Fetch all favorites and notifications
+            let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
+            fetchRequest.predicate = NSPredicate(format: "(favorite == true) OR ((notification == true) AND (beginsAt > %@))", NSDate())
+            let favoritesAndNotifications = try! context.fetch(fetchRequest)
+            favoritesAndNotifications.forEach { song in
+                
+                guard let songName = song.name else { return }
+                
+                if song.favorite {
+                    favorites.append(songName)
+                }
+                
+                if song.notification {
+                    notifications.append(songName)
+                }
+            }
+            
+            // Delete all songs.
+            // This is a batch request so we need to send a notification that the context changed.
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: NSFetchRequest<SongInfo>(entityName: "SongInfo") as! NSFetchRequest<NSFetchRequestResult>)
+            let _ = try? context.execute(deleteRequest)
+            
+            for song in songs {
+                let newSong = try! SongInfo.newSong(name: song.name,
+                                                    initialDate: song.beginsAt,
+                                                    endDate: song.endsAt,
+                                                    context: context)
+                
+                newSong.favorite = favorites.contains(song.name)
+                newSong.notification = notifications.contains(song.name)
+            }
+            
+            self.save(context: context)
+            
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
+    }
+}
