@@ -41,7 +41,6 @@ class FavoritesTableViewController: UITableViewController {
         
         do {
             try fetchedResultsController.performFetch()
-
         } catch {
             fatalError()
         }
@@ -57,6 +56,17 @@ class FavoritesTableViewController: UITableViewController {
                 }
             }
         }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(requestUpdateFromDataSource),
+                                               name: Notification.Name(schedule: .didUpdate),
+                                               object: nil)
+
+    }
+    
+    func requestUpdateFromDataSource() {
+        try? fetchedResultsController?.performFetch()
+        tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

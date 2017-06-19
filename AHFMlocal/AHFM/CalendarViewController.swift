@@ -32,33 +32,50 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         return calendar
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        calendarView.scope = .week
-    }
-    
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-
-        guard let selectedDate = calendar.selectedDate else { return }
+    private func fetchSongsFor(day: NSDate) {
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         calendar?.timeZone = .current
-        guard let newSelectedDate = calendar?.startOfDay(for: selectedDate) else { return }
-        let newSelectedNSDate = newSelectedDate as NSDate
-        let nextDay = calendar?.date(byAdding: .day, value: 1, to: newSelectedNSDate as Date)
+        guard let newDate = calendar?.startOfDay(for: day as Date) else { return }
+        let newNSDate = newDate as NSDate
+        let nextDay = calendar?.date(byAdding: .day, value: 1, to: newDate as Date)
         let nextNSDay = nextDay as NSDate!
-
+        
         let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
-        fetchRequest.predicate = NSPredicate(format: "(beginsAt >= %@) AND (beginsAt < %@)", newSelectedNSDate, nextNSDay!)
+        fetchRequest.predicate = NSPredicate(format: "(beginsAt >= %@) AND (beginsAt < %@)", newNSDate, nextNSDay!)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beginsAt", ascending: true)]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>, managedObjectContext: context.mainContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController?.delegate = self
-
+        
         do {
             try fetchedResultsController?.performFetch()
             tableView.reloadData()
         } catch {
             fatalError()
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(requestUpdateFromDataSource),
+                                               name: Notification.Name(schedule: .didUpdate),
+                                               object: nil)
+
+    }
+    
+    func requestUpdateFromDataSource() {
+        try? fetchedResultsController?.performFetch()
+        tableView.reloadData()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        calendarView.scope = .week
+    
+        guard let today = calendarView.today else { return }
+        fetchSongsFor(day: today as NSDate)
+    }
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        guard let selectedDate = calendar.selectedDate else { return }
+        fetchSongsFor(day: selectedDate as NSDate)
     }
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
@@ -100,6 +117,9 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         guard let managedObjectIndexPath = tableView.indexPath(for: cell) else { return }
         let song = self.fetchedResultsController?.object(at: managedObjectIndexPath) as! SongInfo
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let now = Date()
+        let calendar = NSCalendar(calendarIdentifier: .gregorian)
+        calendar?.timeZone = .current
         
         alert.addAction(UIAlertAction(title: song.favorite ? "Unfavorite" : "Favorite", style: .default) { action in
             
@@ -110,12 +130,11 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
                 self.context.save(context: songContext)
             }
         })
-        
+    
         alert.addAction(UIAlertAction(title: song.notification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
         
             let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
             let fetchedSongs = try? self.context.mainContext.fetch(request)
-            let now = Date()
             
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
                 (granted, error) in
@@ -148,9 +167,13 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         })
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        if now > song.beginsAt! as Date {
+            alert.actions[1].isEnabled = false
+        }
+        
         present(alert, animated: true, completion: nil)
     }
-
 }
 
 extension CalendarViewController {
