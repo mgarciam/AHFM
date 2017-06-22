@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F03BD941EF909A4009A5477 /* SavedSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F03BD931EF909A4009A5477 /* SavedSong.swift */; };
 		8F044A711EF0E10900239316 /* SongInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F044A6F1EF0E10900239316 /* SongInfo+CoreDataClass.swift */; };
 		8F044A721EF0E10900239316 /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F044A701EF0E10900239316 /* SongInfo+CoreDataProperties.swift */; };
+		8F4C695C1EF8441400580672 /* UserDefaults-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C695B1EF8441400580672 /* UserDefaults-Extension.swift */; };
+		8F4C69601EF8498C00580672 /* ShowInfo-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C695F1EF8498C00580672 /* ShowInfo-Extension.swift */; };
 		8F6F77F21EE9B24700792D86 /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6F77F11EE9B24700792D86 /* SongCell.swift */; };
 		8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */; };
 		8F7111161EDC9C250017FE98 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7111151EDC9C250017FE98 /* Favorites.storyboard */; };
@@ -62,8 +65,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F03BD931EF909A4009A5477 /* SavedSong.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedSong.swift; sourceTree = "<group>"; };
 		8F044A6F1EF0E10900239316 /* SongInfo+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8F044A701EF0E10900239316 /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8F4C695B1EF8441400580672 /* UserDefaults-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults-Extension.swift"; sourceTree = "<group>"; };
+		8F4C695F1EF8498C00580672 /* ShowInfo-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ShowInfo-Extension.swift"; sourceTree = "<group>"; };
 		8F6F77F11EE9B24700792D86 /* SongCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
 		8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SongInfo+AHFM.swift"; path = "AHFM/SongInfo+AHFM.swift"; sourceTree = "<group>"; };
 		8F7111151EDC9C250017FE98 /* Favorites.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
@@ -172,6 +178,9 @@
 			children = (
 				8FF6A9EA1EDDF49A00BAC6EC /* Core Data */,
 				8FB769B01ED47DC4004BF989 /* AppDelegate.swift */,
+				8F4C695B1EF8441400580672 /* UserDefaults-Extension.swift */,
+				8F4C695F1EF8498C00580672 /* ShowInfo-Extension.swift */,
+				8F03BD931EF909A4009A5477 /* SavedSong.swift */,
 				8FEDC7EA1EF0589800739784 /* ScheduleViewModel.swift */,
 				8F6F77F11EE9B24700792D86 /* SongCell.swift */,
 				8FB769B21ED47DC4004BF989 /* StreamViewController.swift */,
@@ -416,10 +425,12 @@
 				8FBBA7D41EDF46AC00A5E59B /* FSCalendar.m in Sources */,
 				8FF6A9E81EDDF0F500BAC6EC /* CoreDataStack.swift in Sources */,
 				8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */,
+				8F03BD941EF909A4009A5477 /* SavedSong.swift in Sources */,
 				8FB769B31ED47DC4004BF989 /* StreamViewController.swift in Sources */,
 				8F7111181EDC9CC00017FE98 /* FavoritesTableViewController.swift in Sources */,
 				8F044A711EF0E10900239316 /* SongInfo+CoreDataClass.swift in Sources */,
 				8FBBA7E21EDF46AC00A5E59B /* FSCalendarTransitionCoordinator.m in Sources */,
+				8F4C69601EF8498C00580672 /* ShowInfo-Extension.swift in Sources */,
 				8FBBA7E01EDF46AC00A5E59B /* FSCalendarScopeHandle.m in Sources */,
 				8F6F77F21EE9B24700792D86 /* SongCell.swift in Sources */,
 				8FB769B91ED47DC4004BF989 /* AHFM.xcdatamodeld in Sources */,
@@ -430,6 +441,7 @@
 				8FB769B11ED47DC4004BF989 /* AppDelegate.swift in Sources */,
 				8FBBA7DB1EDF46AC00A5E59B /* FSCalendarConstants.m in Sources */,
 				8FEDC7EB1EF0589800739784 /* ScheduleViewModel.swift in Sources */,
+				8F4C695C1EF8441400580672 /* UserDefaults-Extension.swift in Sources */,
 				8FBBA7D71EDF46AC00A5E59B /* FSCalendarCalculator.m in Sources */,
 				8F044A721EF0E10900239316 /* SongInfo+CoreDataProperties.swift in Sources */,
 				8FBBA7D81EDF46AC00A5E59B /* FSCalendarCell.m in Sources */,
@@ -595,6 +607,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "AHFM/AHFM-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -610,6 +623,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AHFM/AHFM-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

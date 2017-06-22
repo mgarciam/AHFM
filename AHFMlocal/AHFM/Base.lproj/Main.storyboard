@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Stream View Controller-->
+        <!--AH.FM-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="StreamViewController" customModule="AHFM" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="AH.FM" id="BYZ-38-t0r" customClass="StreamViewController" customModule="AHFM" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -26,20 +26,20 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R28-id-aCl">
                                 <rect key="frame" x="0.0" y="64" width="375" height="70"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CURRENTLY" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tot-ao-6gf">
-                                        <rect key="frame" x="10" y="0.0" width="100" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOW PLAYING" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tot-ao-6gf">
+                                        <rect key="frame" x="10" y="0.0" width="200" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="fae-h3-YII"/>
-                                            <constraint firstAttribute="width" constant="100" id="wIR-MF-FpA"/>
+                                            <constraint firstAttribute="width" constant="200" id="wIR-MF-FpA"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AH.FM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0H-6Q-bSQ">
-                                        <rect key="frame" x="10" y="24.5" width="52" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AH.FM" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0H-6Q-bSQ">
+                                        <rect key="frame" x="10" y="26" width="375" height="42"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="WqC-Z2-ciw"/>
+                                            <constraint firstAttribute="height" constant="42" id="WqC-Z2-ciw"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -49,8 +49,8 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="2Nb-Vk-bgq"/>
+                                    <constraint firstItem="H0H-6Q-bSQ" firstAttribute="top" secondItem="tot-ao-6gf" secondAttribute="bottom" constant="5" id="JpX-cJ-bFM"/>
                                     <constraint firstItem="H0H-6Q-bSQ" firstAttribute="leading" secondItem="R28-id-aCl" secondAttribute="leading" constant="10" id="NB4-vX-Yoj"/>
-                                    <constraint firstItem="H0H-6Q-bSQ" firstAttribute="centerY" secondItem="R28-id-aCl" secondAttribute="centerY" id="Xez-Zi-G0e"/>
                                     <constraint firstItem="tot-ao-6gf" firstAttribute="leading" secondItem="R28-id-aCl" secondAttribute="leading" constant="10" id="oq1-D5-kie"/>
                                     <constraint firstItem="tot-ao-6gf" firstAttribute="top" secondItem="R28-id-aCl" secondAttribute="top" id="swW-9d-yar"/>
                                 </constraints>
@@ -188,6 +188,7 @@
                             <constraint firstAttribute="trailing" secondItem="Rnf-xB-bin" secondAttribute="trailing" id="Fg6-hh-eFR"/>
                             <constraint firstItem="6g2-TM-fm7" firstAttribute="centerY" secondItem="61q-Hw-jTx" secondAttribute="centerY" id="Iv3-Sc-cI7"/>
                             <constraint firstAttribute="trailing" secondItem="R28-id-aCl" secondAttribute="trailing" id="JbR-Oa-Tc7"/>
+                            <constraint firstItem="H0H-6Q-bSQ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Yhm-5T-MKD"/>
                             <constraint firstItem="61q-Hw-jTx" firstAttribute="centerX" secondItem="Rnf-xB-bin" secondAttribute="centerX" id="gBN-Co-wMl"/>
                             <constraint firstItem="6g2-TM-fm7" firstAttribute="centerX" secondItem="61q-Hw-jTx" secondAttribute="centerX" id="gOH-UN-wEi"/>
                             <constraint firstItem="Rnf-xB-bin" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gyi-n3-aGP"/>
@@ -197,7 +198,7 @@
                             <constraint firstItem="61q-Hw-jTx" firstAttribute="width" secondItem="Rnf-xB-bin" secondAttribute="width" id="tNq-Ua-dQ0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="6QS-rH-RBR">
+                    <navigationItem key="navigationItem" title="AH.FM" id="6QS-rH-RBR">
                         <barButtonItem key="leftBarButtonItem" title="Saved" id="hQB-Se-zU9">
                             <connections>
                                 <action selector="didPressFavoritesButton:" destination="BYZ-38-t0r" id="dvL-Lp-5PT"/>

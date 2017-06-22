@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 import CoreData
-import UserNotifications
 
 class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, SongInfoDelegate {
+    
+    let calendar = NSCalendar(calendarIdentifier: .gregorian)
     
     private var context: CoreDataStack!
     private var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
@@ -33,7 +34,6 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     }
     
     private func fetchSongsFor(day: NSDate) {
-        let calendar = NSCalendar(calendarIdentifier: .gregorian)
         calendar?.timeZone = .current
         guard let newDate = calendar?.startOfDay(for: day as Date) else { return }
         let newNSDate = newDate as NSDate
@@ -71,6 +71,20 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     
         guard let today = calendarView.today else { return }
         fetchSongsFor(day: today as NSDate)
+    }
+    
+    func minimumDate(for calendar: FSCalendar) -> Date {
+        let current = Calendar.current
+        let date = Date()
+        return current.date(from: current.dateComponents([.year, .month], from: current.startOfDay(for: date)))!
+    }
+    
+    func maximumDate(for calendar: FSCalendar) -> Date {
+        let current = Calendar.current
+        let date = Date()
+        let components = current.dateComponents([.year, .month], from: date)
+        let startOfMonth = current.date(from: components)
+        return current.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth!)!
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -112,67 +126,10 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         return cell
     }
     
-    func showInfo(_ cell: SongCell) {
+    func songInfo(for cell: SongCell) -> SavedSong? {
+        guard let indexPath = tableView.indexPath(for: cell) else { return nil }
         
-        guard let managedObjectIndexPath = tableView.indexPath(for: cell) else { return }
-        let song = self.fetchedResultsController?.object(at: managedObjectIndexPath) as! SongInfo
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let now = Date()
-        let calendar = NSCalendar(calendarIdentifier: .gregorian)
-        calendar?.timeZone = .current
-        
-        alert.addAction(UIAlertAction(title: song.favorite ? "Unfavorite" : "Favorite", style: .default) { action in
-            
-            guard let songContext = song.managedObjectContext else { return }
-            
-            songContext.perform {
-                song.favorite = !song.favorite
-                self.context.save(context: songContext)
-            }
-        })
-    
-        alert.addAction(UIAlertAction(title: song.notification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
-        
-            let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
-            let fetchedSongs = try? self.context.mainContext.fetch(request)
-            
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
-                (granted, error) in
-                if !granted {
-                    print("error")
-                }
-            }
-            
-            var matchingSong: SongInfo!
-            fetchedSongs?.forEach { fetchedSong in
-                if song.name! == fetchedSong.name! && fetchedSong.beginsAt! as Date > now {
-                    matchingSong = fetchedSong
-                }
-            }
- 
-            let content = UNMutableNotificationContent()
-            let calendar = NSCalendar.current
-            let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: matchingSong.beginsAt! as Date)
-            content.title = matchingSong.name!
-            content.body = "Is playing now!"
-            content.sound = UNNotificationSound.default()
-            let _ = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
-            
-            guard let songContext = song.managedObjectContext else { return }
-            
-            songContext.perform {
-                song.notification = !song.notification
-                self.context.save(context: songContext)
-            }
-        })
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
-        if now > song.beginsAt! as Date {
-            alert.actions[1].isEnabled = false
-        }
-        
-        present(alert, animated: true, completion: nil)
+        return SavedSong(song: self.fetchedResultsController?.object(at: indexPath) as! SongInfo)
     }
 }
 

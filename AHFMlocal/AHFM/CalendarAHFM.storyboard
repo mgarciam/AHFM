@@ -14,7 +14,7 @@
         <!--Data Source-->
         <scene sceneID="Tor-G9-Kv5">
             <objects>
-                <viewController id="x5E-Mi-tRE" customClass="CalendarViewController" customModule="AHFM" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Calendar" id="x5E-Mi-tRE" customClass="CalendarViewController" customModule="AHFM" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2Nc-vY-pzf"/>
                         <viewControllerLayoutGuide type="bottom" id="qfa-vD-3cY"/>
@@ -132,7 +132,9 @@
                             <constraint firstItem="bau-wR-D55" firstAttribute="trailing" secondItem="fvX-zB-nhw" secondAttribute="trailing" id="zz0-FF-kdq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="WHY-0S-GWv"/>
+                    <navigationItem key="navigationItem" title="Calendar" id="WHY-0S-GWv">
+                        <barButtonItem key="backBarButtonItem" title="AH.FM" id="8pz-My-kqy"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="calendarHeightConstraint" destination="AGn-zh-Qw2" id="nLI-8L-Uyk"/>
                         <outlet property="calendarView" destination="bau-wR-D55" id="cWF-RC-fOt"/>

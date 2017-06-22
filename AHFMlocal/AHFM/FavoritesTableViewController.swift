@@ -8,13 +8,11 @@
 
 import Foundation
 import UIKit
-import CoreData
-import UserNotifications
 
-class FavoritesTableViewController: UITableViewController {
+class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
-    var context: CoreDataStack!
+    var favorites = [SavedSong]()
+    var notifications = [SavedSong]()
     
     lazy var songDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -24,26 +22,24 @@ class FavoritesTableViewController: UITableViewController {
     
     class func newFavoritesVC(context: CoreDataStack) -> FavoritesTableViewController {
         let favorites = UIStoryboard(name: "Favorites", bundle: nil).instantiateInitialViewController() as! FavoritesTableViewController
-        favorites.context = context
         return favorites
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let now = NSDate()
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongInfo")
-        request.predicate = NSPredicate(format: "(favorite == true) OR ((notification == true) AND (beginsAt > %@))", now)
-        let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        request.sortDescriptors = [nameSort]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context.mainContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
+        favorites = UserDefaults.standard.favorites
+        notifications = UserDefaults.standard.notifications
         
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError()
-        }
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateContent),
+                                               name: Notification.Name.init(notification: .didUpdateFavorites),
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateContent),
+                                               name: Notification.Name.init(notification: .didUpdateNotifications),
+                                               object: nil)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             
@@ -56,142 +52,80 @@ class FavoritesTableViewController: UITableViewController {
                 }
             }
         }
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(requestUpdateFromDataSource),
-                                               name: Notification.Name(schedule: .didUpdate),
-                                               object: nil)
-
     }
     
-    func requestUpdateFromDataSource() {
-        try? fetchedResultsController?.performFetch()
-        tableView.reloadData()
+    fileprivate func array(section: Int) -> [SavedSong] {
+        if favorites.isEmpty && !notifications.isEmpty {
+            return notifications
+        } else if !favorites.isEmpty && notifications.isEmpty {
+            return favorites
+        } else if section == 0 {
+            return notifications
+        } else {
+            return favorites
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            return 0
-        }
-        
-        return sections.count
+        let favoritesSectionExists = favorites.isEmpty ? 0 : 1
+        let notificationsSectionExists = notifications.isEmpty ? 0 : 1
+        return favoritesSectionExists + notificationsSectionExists
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections else {
+
+        if favorites.isEmpty && notifications.isEmpty {
             return 0
         }
-        
-        return sections[section].numberOfObjects
+        tableView.endUpdates()
+        return array(section: section).count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
-        let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
-        let beginHour = songDateFormatter.string(from: song.beginsAt! as Date)
-        let endHour = songDateFormatter.string(from: song.endsAt! as Date)
         
-        cell.nameLabel.text = song.name!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
+        let song = array(section: indexPath.section)[indexPath.row]
+        let beginHour = songDateFormatter.string(from: song.beginsAt as Date)
+        
+        cell.panGesture.delegate = self
+        cell.nameLabel.text = song.name
         cell.beginHourLabel.text = beginHour
-        cell.endHourLabel.text = endHour
         cell.infoDelegate = self
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let section = array(section: section)
+        if section == notifications {
+            return "TO NOTIFY"
+        } else {
+            return "FAVORITES"
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func updateContent() {
+        DispatchQueue.main.async {
+            self.favorites = UserDefaults.standard.favorites
+            self.notifications = UserDefaults.standard.notifications
+            UIView.transition(with: self.tableView,
+                              duration: 0.35,
+                              options: .transitionCrossDissolve,
+                              animations: { self.tableView.reloadData() })
+        }
+    }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
 extension FavoritesTableViewController : SongInfoDelegate {
-    func showInfo(_ cell: SongCell) {
-        
-        guard let managedObjectIndexPath = tableView.indexPath(for: cell) else { return }
-        let song = self.fetchedResultsController?.object(at: managedObjectIndexPath) as! SongInfo
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        alert.addAction(UIAlertAction(title: song.favorite ? "Unfavorite" : "Favorite", style: .default) { action in
-            
-            guard let songContext = song.managedObjectContext else { return }
-            
-            songContext.perform {
-                song.favorite = !song.favorite
-                self.context.save(context: songContext)
-            }
-        })
-        
-        alert.addAction(UIAlertAction(title: song.notification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
-            
-            let request = NSFetchRequest<SongInfo>(entityName: "SongInfo")
-            let fetchedSongs = try? self.context.mainContext.fetch(request)
-            let now = Date()
-            
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
-                (granted, error) in
-                if !granted {
-                    print("error")
-                }
-            }
-            
-            var matchingSong: SongInfo!
-            fetchedSongs?.forEach { fetchedSong in
-                if song.name! == fetchedSong.name! && fetchedSong.beginsAt! as Date > now {
-                    matchingSong = fetchedSong
-                }
-            }
-            
-            let content = UNMutableNotificationContent()
-            let calendar = NSCalendar.current
-            let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: matchingSong.beginsAt! as Date)
-            content.title = matchingSong.name!
-            content.body = "Is playing now!"
-            content.sound = UNNotificationSound.default()
-            let _ = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
-            
-            guard let songContext = song.managedObjectContext else { return }
-            
-            songContext.perform {
-                song.notification = !song.notification
-                self.context.save(context: songContext)
-            }
-
-        })
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        present(alert, animated: true, completion: nil)
-    }
-}
-
-
-extension FavoritesTableViewController : NSFetchedResultsControllerDelegate {
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .move:
-            break
-        case .update:
-            break
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
-        case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
+    func songInfo(for cell: SongCell) -> SavedSong? {
+        guard let indexPath = tableView.indexPath(for: cell) else { return nil }
+        return array(section: indexPath.section)[indexPath.row]
     }
 }

@@ -11,11 +11,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Favorites Table View Controller-->
+        <!--Saved-->
         <scene sceneID="wbv-mJ-3yv">
             <objects>
-                <tableViewController id="BVn-d8-tFg" customClass="FavoritesTableViewController" customModule="AHFM" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="dbK-HK-U6I">
+                <tableViewController title="Saved" id="BVn-d8-tFg" customClass="FavoritesTableViewController" customModule="AHFM" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="dbK-HK-U6I">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -32,12 +32,6 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="70" id="Gvl-s0-LDi"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="endHour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n3k-pG-FSf">
-                                            <rect key="frame" x="16" y="22" width="70" height="22"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -72,12 +66,8 @@
                                         <constraint firstItem="RlV-oF-G7A" firstAttribute="leading" secondItem="F2a-H0-sWz" secondAttribute="leading" constant="85" id="6uD-3O-D3L"/>
                                         <constraint firstItem="iMk-mw-Lh6" firstAttribute="top" secondItem="RlV-oF-G7A" secondAttribute="top" id="7FD-nw-6GG"/>
                                         <constraint firstItem="iMk-mw-Lh6" firstAttribute="bottom" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="Jhi-na-RdM"/>
-                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="top" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="LjT-Rz-kHM"/>
                                         <constraint firstItem="XFb-ec-vEm" firstAttribute="leading" secondItem="RlV-oF-G7A" secondAttribute="trailing" constant="30" id="TbF-Qz-jea"/>
-                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="bottom" secondItem="RlV-oF-G7A" secondAttribute="bottom" id="UMu-VN-R6m"/>
                                         <constraint firstItem="oLd-ew-lr8" firstAttribute="leading" secondItem="XFb-ec-vEm" secondAttribute="trailing" constant="10" id="UT6-z7-9JS"/>
-                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="centerX" secondItem="iMk-mw-Lh6" secondAttribute="centerX" id="bzP-lY-f3q"/>
-                                        <constraint firstItem="n3k-pG-FSf" firstAttribute="width" secondItem="iMk-mw-Lh6" secondAttribute="width" id="gTg-4S-07T"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="oLd-ew-lr8" secondAttribute="trailing" constant="11" id="lqa-xK-9rH"/>
                                         <constraint firstItem="XFb-ec-vEm" firstAttribute="height" secondItem="RlV-oF-G7A" secondAttribute="height" id="nf2-WH-txZ"/>
                                         <constraint firstItem="iMk-mw-Lh6" firstAttribute="trailing" secondItem="RlV-oF-G7A" secondAttribute="trailing" id="v4S-qY-KL9"/>
@@ -90,7 +80,6 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="beginHourLabel" destination="iMk-mw-Lh6" id="sLL-Cs-5jb"/>
-                                    <outlet property="endHourLabel" destination="n3k-pG-FSf" id="qBx-ST-bBX"/>
                                     <outlet property="infoButton" destination="oLd-ew-lr8" id="St2-VL-rLC"/>
                                     <outlet property="leadingHoursSeparatorConstraint" destination="6uD-3O-D3L" id="Am0-aQ-GSe"/>
                                     <outlet property="nameLabel" destination="XFb-ec-vEm" id="PFo-GO-waX"/>
@@ -102,7 +91,9 @@
                             <outlet property="delegate" destination="BVn-d8-tFg" id="9zP-lR-1Le"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Sn2-Kr-qa5"/>
+                    <navigationItem key="navigationItem" title="Saved" id="Sn2-Kr-qa5">
+                        <barButtonItem key="backBarButtonItem" title="AH.FM" id="cU1-YS-2j6"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lay-XU-6bq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

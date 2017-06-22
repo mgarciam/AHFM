@@ -18,8 +18,5 @@ extension SongInfo {
 
     @NSManaged public var beginsAt: NSDate?
     @NSManaged public var endsAt: NSDate?
-    @NSManaged public var favorite: Bool
     @NSManaged public var name: String?
-    @NSManaged public var notification: Bool
-
 }
