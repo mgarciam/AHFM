@@ -12,6 +12,9 @@
 		8F044A721EF0E10900239316 /* SongInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F044A701EF0E10900239316 /* SongInfo+CoreDataProperties.swift */; };
 		8F4C695C1EF8441400580672 /* UserDefaults-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C695B1EF8441400580672 /* UserDefaults-Extension.swift */; };
 		8F4C69601EF8498C00580672 /* ShowInfo-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C695F1EF8498C00580672 /* ShowInfo-Extension.swift */; };
+		8F4F76311EFD85C3003AEB0F /* NotificationName-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4F76301EFD85C3003AEB0F /* NotificationName-Extension.swift */; };
+		8F4F76331EFD8ACC003AEB0F /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4F76321EFD8ACC003AEB0F /* Protocols.swift */; };
+		8F4F76351EFD8ECC003AEB0F /* SongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4F76341EFD8ECC003AEB0F /* SongsViewController.swift */; };
 		8F6F77F21EE9B24700792D86 /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6F77F11EE9B24700792D86 /* SongCell.swift */; };
 		8F7111141EDC7C4E0017FE98 /* SongInfo+AHFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */; };
 		8F7111161EDC9C250017FE98 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7111151EDC9C250017FE98 /* Favorites.storyboard */; };
@@ -70,6 +73,9 @@
 		8F044A701EF0E10900239316 /* SongInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SongInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8F4C695B1EF8441400580672 /* UserDefaults-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults-Extension.swift"; sourceTree = "<group>"; };
 		8F4C695F1EF8498C00580672 /* ShowInfo-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ShowInfo-Extension.swift"; sourceTree = "<group>"; };
+		8F4F76301EFD85C3003AEB0F /* NotificationName-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationName-Extension.swift"; sourceTree = "<group>"; };
+		8F4F76321EFD8ACC003AEB0F /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		8F4F76341EFD8ECC003AEB0F /* SongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongsViewController.swift; sourceTree = "<group>"; };
 		8F6F77F11EE9B24700792D86 /* SongCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
 		8F7111131EDC7C4E0017FE98 /* SongInfo+AHFM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SongInfo+AHFM.swift"; path = "AHFM/SongInfo+AHFM.swift"; sourceTree = "<group>"; };
 		8F7111151EDC9C250017FE98 /* Favorites.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
@@ -153,6 +159,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F4F762F1EFD855F003AEB0F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8F4F76321EFD8ACC003AEB0F /* Protocols.swift */,
+				8F4C695F1EF8498C00580672 /* ShowInfo-Extension.swift */,
+				8F4C695B1EF8441400580672 /* UserDefaults-Extension.swift */,
+				8FEDC7EA1EF0589800739784 /* ScheduleViewModel.swift */,
+				8F03BD931EF909A4009A5477 /* SavedSong.swift */,
+				8F4F76301EFD85C3003AEB0F /* NotificationName-Extension.swift */,
+				8FF6A9EA1EDDF49A00BAC6EC /* Core Data */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		8FB769A41ED47DC4004BF989 = {
 			isa = PBXGroup;
 			children = (
@@ -176,13 +196,10 @@
 		8FB769AF1ED47DC4004BF989 /* AHFM */ = {
 			isa = PBXGroup;
 			children = (
-				8FF6A9EA1EDDF49A00BAC6EC /* Core Data */,
+				8F4F762F1EFD855F003AEB0F /* Model */,
 				8FB769B01ED47DC4004BF989 /* AppDelegate.swift */,
-				8F4C695B1EF8441400580672 /* UserDefaults-Extension.swift */,
-				8F4C695F1EF8498C00580672 /* ShowInfo-Extension.swift */,
-				8F03BD931EF909A4009A5477 /* SavedSong.swift */,
-				8FEDC7EA1EF0589800739784 /* ScheduleViewModel.swift */,
 				8F6F77F11EE9B24700792D86 /* SongCell.swift */,
+				8F4F76341EFD8ECC003AEB0F /* SongsViewController.swift */,
 				8FB769B21ED47DC4004BF989 /* StreamViewController.swift */,
 				8FB769E51ED4AA91004BF989 /* CalendarViewController.swift */,
 				8F7111171EDC9CC00017FE98 /* FavoritesTableViewController.swift */,
@@ -345,8 +362,14 @@
 				TargetAttributes = {
 					8FB769AC1ED47DC4004BF989 = {
 						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 4QGJL3GVX5;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					8FB769C31ED47DC4004BF989 = {
 						CreatedOnToolsVersion = 8.3;
@@ -417,6 +440,7 @@
 			files = (
 				8FBBA7DD1EDF46AC00A5E59B /* FSCalendarDelegationProxy.m in Sources */,
 				8FBBA7DC1EDF46AC00A5E59B /* FSCalendarDelegationFactory.m in Sources */,
+				8F4F76331EFD8ACC003AEB0F /* Protocols.swift in Sources */,
 				8FBBA7DA1EDF46AC00A5E59B /* FSCalendarCollectionViewLayout.m in Sources */,
 				8FBBA7DE1EDF46AC00A5E59B /* FSCalendarExtensions.m in Sources */,
 				8FB769E61ED4AA91004BF989 /* CalendarViewController.swift in Sources */,
@@ -439,7 +463,9 @@
 				8FBBA7D51EDF46AC00A5E59B /* FSCalendar+Deprecated.m in Sources */,
 				8FBBA7D91EDF46AC00A5E59B /* FSCalendarCollectionView.m in Sources */,
 				8FB769B11ED47DC4004BF989 /* AppDelegate.swift in Sources */,
+				8F4F76351EFD8ECC003AEB0F /* SongsViewController.swift in Sources */,
 				8FBBA7DB1EDF46AC00A5E59B /* FSCalendarConstants.m in Sources */,
+				8F4F76311EFD85C3003AEB0F /* NotificationName-Extension.swift in Sources */,
 				8FEDC7EB1EF0589800739784 /* ScheduleViewModel.swift in Sources */,
 				8F4C695C1EF8441400580672 /* UserDefaults-Extension.swift in Sources */,
 				8FBBA7D71EDF46AC00A5E59B /* FSCalendarCalculator.m in Sources */,
@@ -599,15 +625,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 4QGJL3GVX5;
 				INFOPLIST_FILE = AHFM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Marilyn.AHFM;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AHFM.Identifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AHFM/AHFM-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -616,14 +643,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 4QGJL3GVX5;
 				INFOPLIST_FILE = AHFM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Marilyn.AHFM;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AHFM.Identifier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AHFM/AHFM-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

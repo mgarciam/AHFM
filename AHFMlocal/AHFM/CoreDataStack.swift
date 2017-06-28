@@ -76,7 +76,7 @@ extension CoreDataStack {
             let _ = try? context.execute(deleteRequest)
             
             for song in songs {
-                let newSong = try! SongInfo.newSong(name: song.name,
+                let _ = try! SongInfo.newSong(name: song.name,
                                                     initialDate: song.beginsAt,
                                                     endDate: song.endsAt,
                                                     context: context)

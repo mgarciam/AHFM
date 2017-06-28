@@ -20,11 +20,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="bth-EJ-Cgh" customClass="SongCell" customModule="AHFM" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="bth-EJ-Cgh" customClass="SongCell" customModule="AHFM" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bth-EJ-Cgh" id="F2a-H0-sWz">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beginHour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMk-mw-Lh6">
@@ -92,7 +92,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Saved" id="Sn2-Kr-qa5">
-                        <barButtonItem key="backBarButtonItem" title="AH.FM" id="cU1-YS-2j6"/>
+                        <barButtonItem key="backBarButtonItem" id="cU1-YS-2j6"/>
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="Nsp-TU-kHT">
+                            <connections>
+                                <action selector="didPressCloseSavedButton:" destination="BVn-d8-tFg" id="XQO-s3-yYV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lay-XU-6bq" userLabel="First Responder" sceneMemberID="firstResponder"/>

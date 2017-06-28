@@ -32,10 +32,12 @@ extension SongInfoDelegate where Self: UIViewController {
         })
         
         let isNotification = notifications.contains(song)
+        var flag = false
         let notificationAction = UIAlertAction(title: isNotification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
             
-            if isNotification {
+            if isNotification || flag == true {
                 UserDefaults.standard.remove(notification: song)
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [song.name])
             } else {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
                     (granted, error) in
@@ -46,20 +48,37 @@ extension SongInfoDelegate where Self: UIViewController {
                 
                 UserDefaults.standard.add(notification: song)
                 let content = UNMutableNotificationContent()
-                let calendar = NSCalendar.current
-                let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: song.beginsAt as Date)
+                //let calendar = NSCalendar.current
+                let triggerDate = UNTimeIntervalNotificationTrigger.init(timeInterval: 20, repeats: false)
+                //let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: song.beginsAt as Date)
                 content.title = song.name
-                content.body = "Is playing now!"
+                content.body = NSLocalizedString("Is playing now!", comment: "")
+                content.badge = 1 
                 content.sound = UNNotificationSound.default()
-                let _ = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+                //let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+                let request = UNNotificationRequest(identifier: song.name,
+                                                    content: content,
+                                                    trigger: triggerDate)
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                    if let  _ = error {
+                        print("error")
+                    }
+                })
+                flag = true
             }
-            
         }
         
         notificationAction.isEnabled = Date() < song.beginsAt as Date
         alert.addAction(notificationAction)
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            alert.popoverPresentationController?.permittedArrowDirections = []
+        }
+        
         present(alert, animated: true, completion: nil)
     }
 }

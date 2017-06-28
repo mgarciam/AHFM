@@ -10,22 +10,14 @@ import Foundation
 import UIKit
 import CoreData
 
-class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, SongInfoDelegate {
+class CalendarViewController: SongsViewController {
     
     let calendar = NSCalendar(calendarIdentifier: .gregorian)
     
-    private var context: CoreDataStack!
-    private var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-    
-    lazy var songDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter
-    }()
+    var day = Date()
   
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tableView: UITableView!
     
     class func newCalendarVC(context: CoreDataStack) -> CalendarViewController {
         let calendar = UIStoryboard(name: "CalendarAHFM", bundle: nil).instantiateInitialViewController() as! CalendarViewController
@@ -33,45 +25,39 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         return calendar
     }
     
-    private func fetchSongsFor(day: NSDate) {
-        calendar?.timeZone = .current
-        guard let newDate = calendar?.startOfDay(for: day as Date) else { return }
-        let newNSDate = newDate as NSDate
-        let nextDay = calendar?.date(byAdding: .day, value: 1, to: newDate as Date)
-        let nextNSDay = nextDay as NSDate!
-        
-        let fetchRequest = NSFetchRequest<SongInfo>(entityName: "SongInfo")
-        fetchRequest.predicate = NSPredicate(format: "(beginsAt >= %@) AND (beginsAt < %@)", newNSDate, nextNSDay!)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "beginsAt", ascending: true)]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>, managedObjectContext: context.mainContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController?.delegate = self
-        
-        do {
-            try fetchedResultsController?.performFetch()
-            tableView.reloadData()
-        } catch {
-            fatalError()
-        }
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(requestUpdateFromDataSource),
-                                               name: Notification.Name(schedule: .didUpdate),
-                                               object: nil)
-
+    override var requestSortDescriptors: [NSSortDescriptor] {
+        return [NSSortDescriptor(key: "beginsAt", ascending: true)]
     }
     
-    func requestUpdateFromDataSource() {
-        try? fetchedResultsController?.performFetch()
-        tableView.reloadData()
+    override var requestPredicate: NSPredicate {
+        calendar?.timeZone = .current
+        let newDate = calendar?.startOfDay(for: day as Date)
+        let newNSDate = newDate! as NSDate
+        let nextDay = calendar?.date(byAdding: .day, value: 1, to: newDate!)
+        let nextNSDay = nextDay as NSDate!
+        
+        return NSPredicate(format: "(beginsAt >= %@) AND (beginsAt < %@)", newNSDate, nextNSDay!)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarView.scope = .week
-    
-        guard let today = calendarView.today else { return }
-        fetchSongsFor(day: today as NSDate)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            
+            self.tableView.visibleCells.forEach { (cell) in
+                let songCell = cell as! SongCell
+                songCell.animateCellLabels()
+            }
+        }
     }
+    
+    @IBAction func didPressCloseCalendarButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension CalendarViewController : FSCalendarDelegate, FSCalendarDataSource {
     
     func minimumDate(for calendar: FSCalendar) -> Date {
         let current = Calendar.current
@@ -89,83 +75,12 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         guard let selectedDate = calendar.selectedDate else { return }
-        fetchSongsFor(day: selectedDate as NSDate)
+        day = selectedDate
+        requestUpdateFromDataSource()
     }
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendarHeightConstraint.constant = bounds.height
         self.view.layoutIfNeeded()
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        guard let sections = fetchedResultsController?.sections else {
-            return 0
-        }
-        
-        return sections.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController?.sections else {
-            return 0
-        }
-        
-        return sections[section].numberOfObjects
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
-        let song = self.fetchedResultsController?.object(at: indexPath) as! SongInfo
-        let beginHour = songDateFormatter.string(from: song.beginsAt! as Date)
-        let endHour = songDateFormatter.string(from: song.endsAt! as Date)
-        
-        cell.nameLabel.text = song.name!
-        cell.beginHourLabel.text = beginHour
-        cell.endHourLabel.text = endHour
-        cell.infoDelegate = self
-        return cell
-    }
-    
-    func songInfo(for cell: SongCell) -> SavedSong? {
-        guard let indexPath = tableView.indexPath(for: cell) else { return nil }
-        
-        return SavedSong(song: self.fetchedResultsController?.object(at: indexPath) as! SongInfo)
-    }
-}
-
-extension CalendarViewController {
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .move:
-            break
-        case .update:
-            break
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
-        case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
     }
 }

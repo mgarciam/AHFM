@@ -1,0 +1,33 @@
+
+/* Class = "UIBarButtonItem"; title = "Calendar"; ObjectID = "1sJ-DI-VX1"; */
+"1sJ-DI-VX1.title" = "Calendar";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "2GA-93-ntf"; */
+"2GA-93-ntf.text" = "name";
+
+/* Class = "UINavigationItem"; title = "AH.FM"; ObjectID = "6QS-rH-RBR"; */
+"6QS-rH-RBR.title" = "AH.FM";
+
+/* Class = "UIButton"; normalTitle = "Pause"; ObjectID = "6g2-TM-fm7"; */
+"6g2-TM-fm7.normalTitle" = "Pause";
+
+/* Class = "UIViewController"; title = "AH.FM"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "AH.FM";
+
+/* Class = "UILabel"; text = "AH.FM"; ObjectID = "H0H-6Q-bSQ"; */
+"H0H-6Q-bSQ.text" = "AH.FM";
+
+/* Class = "UILabel"; text = "endHour"; ObjectID = "LpM-kI-CMl"; */
+"LpM-kI-CMl.text" = "endHour";
+
+/* Class = "UILabel"; text = "beginHour"; ObjectID = "NUw-3W-qsO"; */
+"NUw-3W-qsO.text" = "beginHour";
+
+/* Class = "UIBarButtonItem"; title = "Saved"; ObjectID = "hQB-Se-zU9"; */
+"hQB-Se-zU9.title" = "Saved";
+
+/* Class = "UIButton"; normalTitle = "Play"; ObjectID = "p8X-38-tHK"; */
+"p8X-38-tHK.normalTitle" = "Play";
+
+/* Class = "UILabel"; text = "NOW PLAYING"; ObjectID = "tot-ao-6gf"; */
+"tot-ao-6gf.text" = "NOW PLAYING";

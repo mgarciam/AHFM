@@ -11,28 +11,6 @@ import Foundation
 fileprivate let FavoritesKey = "favorites"
 fileprivate let NotificationsKey = "notifications"
 
-extension Notification.Name {
-
-    enum UpdateDataNotification {
-        case didUpdateFavorites
-        case didUpdateNotifications
-        
-        var rawValue: String {
-            switch self {
-            case .didUpdateFavorites:
-                return "UpdateFavorites"
-                
-            case .didUpdateNotifications:
-                return "UpdateNotifications"
-            }
-        }
-    }
-    
-    init(notification: UpdateDataNotification) {
-        self = Notification.Name(rawValue: notification.rawValue)
-    }
-}
-
 extension UserDefaults {
     var favorites: [SavedSong] {
         get {
@@ -51,7 +29,7 @@ extension UserDefaults {
             let archivedFavorites = NSKeyedArchiver.archivedData(withRootObject: newValue)
             set(archivedFavorites, forKey: FavoritesKey)
             synchronize()
-            NotificationCenter.default.post(name: Notification.Name.init(notification: .didUpdateFavorites),
+            NotificationCenter.default.post(name: Notification.Name(notification: .didUpdateFavorites),
                                             object: nil)
         }
     }
@@ -73,7 +51,7 @@ extension UserDefaults {
             let archivedNotifications = NSKeyedArchiver.archivedData(withRootObject: newValue)
             set(archivedNotifications, forKey: NotificationsKey)
             synchronize()
-            NotificationCenter.default.post(name: Notification.Name.init(notification: .didUpdateNotifications), object: nil)
+            NotificationCenter.default.post(name: Notification.Name(notification: .didUpdateNotifications), object: nil)
         }
     }
 

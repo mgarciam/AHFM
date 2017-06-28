@@ -38,11 +38,11 @@
                                 <rect key="frame" x="0.0" y="349" width="375" height="318"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="rN5-Yn-Kvh" customClass="SongCell" customModule="AHFM" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="rN5-Yn-Kvh" customClass="SongCell" customModule="AHFM" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rN5-Yn-Kvh" id="1Ad-yF-MGC">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beginHour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YgL-Ke-V8s">
@@ -133,7 +133,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Calendar" id="WHY-0S-GWv">
-                        <barButtonItem key="backBarButtonItem" title="AH.FM" id="8pz-My-kqy"/>
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="8lR-Ze-zzz">
+                            <connections>
+                                <action selector="didPressCloseCalendarButton:" destination="x5E-Mi-tRE" id="L5q-S2-MZo"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="calendarHeightConstraint" destination="AGn-zh-Qw2" id="nLI-8L-Uyk"/>
