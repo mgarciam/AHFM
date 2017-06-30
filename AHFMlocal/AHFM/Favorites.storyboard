@@ -24,36 +24,37 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bth-EJ-Cgh" id="F2a-H0-sWz">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="beginHour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMk-mw-Lh6">
-                                            <rect key="frame" x="16" y="0.0" width="70" height="22"/>
+                                            <rect key="frame" x="16" y="0.0" width="75" height="22"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="70" id="Gvl-s0-LDi"/>
+                                                <constraint firstAttribute="width" constant="75" id="Gvl-s0-LDi"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFb-ec-vEm">
-                                            <rect key="frame" x="116" y="-0.5" width="153" height="44"/>
+                                            <rect key="frame" x="121" y="-0.5" width="148" height="44"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLd-ew-lr8">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLd-ew-lr8">
                                             <rect key="frame" x="279" y="11" width="22" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="22" id="8Sq-Cr-cCR"/>
                                                 <constraint firstAttribute="height" constant="22" id="GJh-am-gOk"/>
                                             </constraints>
+                                            <state key="normal" image="original"/>
                                             <connections>
                                                 <action selector="didPressInfoButton:" destination="bth-EJ-Cgh" eventType="touchUpInside" id="3bo-ei-DJU"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RlV-oF-G7A">
-                                            <rect key="frame" x="85" y="0.0" width="1" height="44"/>
+                                            <rect key="frame" x="90" y="0.0" width="1" height="44"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -63,7 +64,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="XFb-ec-vEm" firstAttribute="centerY" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="1Zc-bv-eMz"/>
-                                        <constraint firstItem="RlV-oF-G7A" firstAttribute="leading" secondItem="F2a-H0-sWz" secondAttribute="leading" constant="85" id="6uD-3O-D3L"/>
+                                        <constraint firstItem="RlV-oF-G7A" firstAttribute="leading" secondItem="F2a-H0-sWz" secondAttribute="leading" constant="90" id="6uD-3O-D3L"/>
                                         <constraint firstItem="iMk-mw-Lh6" firstAttribute="top" secondItem="RlV-oF-G7A" secondAttribute="top" id="7FD-nw-6GG"/>
                                         <constraint firstItem="iMk-mw-Lh6" firstAttribute="bottom" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="Jhi-na-RdM"/>
                                         <constraint firstItem="XFb-ec-vEm" firstAttribute="leading" secondItem="RlV-oF-G7A" secondAttribute="trailing" constant="30" id="TbF-Qz-jea"/>
@@ -94,6 +95,7 @@
                     <navigationItem key="navigationItem" title="Saved" id="Sn2-Kr-qa5">
                         <barButtonItem key="backBarButtonItem" id="cU1-YS-2j6"/>
                         <barButtonItem key="leftBarButtonItem" title="Close" id="Nsp-TU-kHT">
+                            <color key="tintColor" red="0.34901960780000002" green="0.43921568630000002" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="didPressCloseSavedButton:" destination="BVn-d8-tFg" id="XQO-s3-yYV"/>
                             </connections>
@@ -123,4 +125,7 @@
             <point key="canvasLocation" x="-166.875" y="60.2112676056338"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="original" width="20" height="4"/>
+    </resources>
 </document>

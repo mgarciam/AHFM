@@ -104,7 +104,7 @@ class ScheduleViewModel {
         var incrementedEndDate: Date?
         let fixedDatesTriples = hourTriple.map { triple -> ParsedSong in
             // In the case where the initial date is higher than the end date, for example:
-            // 23:00-00:00 Ellicit Radio
+            // 23:00-00:00
             guard triple.beginsAt < triple.endsAt else {
                 // The end date must be fixed, so a day is added to it.
                 let fixedEndDate = triple.endsAt.addingTimeInterval(86400)

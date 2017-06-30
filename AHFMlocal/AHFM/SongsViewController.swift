@@ -55,6 +55,7 @@ class SongsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         requestUpdateFromDataSource()
     }
     
@@ -70,6 +71,7 @@ class SongsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

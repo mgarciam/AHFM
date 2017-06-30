@@ -10,10 +10,12 @@ import Foundation
 import UIKit
 import UserNotifications
 
-class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDelegate {
+class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDelegate, UNUserNotificationCenterDelegate {
     
     var favorites = [SavedSong]()
     var notifications = [SavedSong]()
+    
+    let now = Date()
     
     lazy var songDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -34,12 +36,12 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateContent),
-                                               name: Notification.Name.init(notification: .didUpdateFavorites),
+                                               name: Notification.Name(notification: .didUpdateFavorites),
                                                object: nil)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateContent),
-                                               name: Notification.Name.init(notification: .didUpdateNotifications),
+                                               name: Notification.Name(notification: .didUpdateNotifications),
                                                object: nil)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -49,12 +51,23 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
                 songCell.animateCellLabels()
             }
         }
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        notifications = notifications.filter { savedSong -> Bool in
+            savedSong.beginsAt as Date > now
+        }
     }
     
     func updateContent() {
         DispatchQueue.main.async {
             self.favorites = UserDefaults.standard.favorites
             self.notifications = UserDefaults.standard.notifications
+
             UIView.transition(with: self.tableView,
                               duration: 0.35,
                               options: .transitionCrossDissolve,
@@ -77,9 +90,10 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    
         completionHandler([.alert, .sound])
     }
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         let favoritesSectionExists = favorites.isEmpty ? 0 : 1
         let notificationsSectionExists = notifications.isEmpty ? 0 : 1
@@ -90,6 +104,7 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
         if favorites.isEmpty && notifications.isEmpty {
             return 0
         }
+        
         tableView.endUpdates()
         return array(section: section).count
     }
@@ -109,11 +124,12 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let section = array(section: section)
-        if section == notifications {
-            return NSLocalizedString("TO NOTIFY", comment: "")
-        } else {
+        
+        guard section == notifications else {
             return NSLocalizedString("FAVORITES", comment: "")
         }
+        return NSLocalizedString("TO NOTIFY", comment: "")
+
     }
     
     @IBAction func didPressCloseSavedButton(_ sender: Any) {

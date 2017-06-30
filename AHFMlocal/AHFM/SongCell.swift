@@ -45,7 +45,7 @@ class SongCell: UITableViewCell {
             // FIXME: Explain
             if panGesture.velocity(in: self).x > 0 {
                 let dx = gesture.location(in: self).x - self.beginningLocationX
-                var frameChange = (120*dx-2600)/(dx+1)-2
+                var frameChange = (125*dx-2600)/(dx+1)-2
                 if frameChange < -10 {
                     frameChange = -10
                 }

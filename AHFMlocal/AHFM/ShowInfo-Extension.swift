@@ -28,14 +28,14 @@ extension SongInfoDelegate where Self: UIViewController {
                 UserDefaults.standard.remove(favorite: song)
             } else {
                 UserDefaults.standard.add(favorite: song)
+                cell.infoButton.setImage(UIImage.init(named: "favorite.png"), for: .normal)
             }
         })
         
         let isNotification = notifications.contains(song)
-        var flag = false
         let notificationAction = UIAlertAction(title: isNotification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
             
-            if isNotification || flag == true {
+            if isNotification {
                 UserDefaults.standard.remove(notification: song)
                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [song.name])
             } else {
@@ -47,24 +47,24 @@ extension SongInfoDelegate where Self: UIViewController {
                 }
                 
                 UserDefaults.standard.add(notification: song)
+                cell.infoButton.setImage(UIImage.init(named: "notification.png"), for: .normal)
                 let content = UNMutableNotificationContent()
-                //let calendar = NSCalendar.current
-                let triggerDate = UNTimeIntervalNotificationTrigger.init(timeInterval: 20, repeats: false)
-                //let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: song.beginsAt as Date)
+                let calendar = NSCalendar.current
+                //let triggerDate = UNTimeIntervalNotificationTrigger.init(timeInterval: 20, repeats: false)
+                let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: song.beginsAt as Date)
                 content.title = song.name
                 content.body = NSLocalizedString("Is playing now!", comment: "")
                 content.badge = 1 
                 content.sound = UNNotificationSound.default()
-                //let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
                 let request = UNNotificationRequest(identifier: song.name,
                                                     content: content,
-                                                    trigger: triggerDate)
+                                                    trigger: trigger)
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
                     if let  _ = error {
                         print("error")
                     }
                 })
-                flag = true
             }
         }
         

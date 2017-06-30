@@ -20,7 +20,8 @@ class StreamViewController: SongsViewController {
     @IBOutlet weak var currentSongView: UIView!
     @IBOutlet weak var currentlyLabel: UILabel!
     @IBOutlet weak var currentSongTitleLabel: UILabel!
-
+    @IBOutlet weak var logoImageView: UIImageView!
+    
     override var requestSortDescriptors: [NSSortDescriptor] {
         return [NSSortDescriptor(key: "beginsAt", ascending: true)]
     }
@@ -49,6 +50,7 @@ class StreamViewController: SongsViewController {
         currentSongView.isHidden = state.currentSongViewIsHidden
         currentlyLabel.isHidden = state.currentlyLabelIsHidden
         currentSongTitleLabel.isHidden = state.currentSongTitleLabelIsHidden
+        logoImageView.isHidden = state.logoImageViewIsHiden
         
         if state == .playing {
             requestUpdateFromDataSource()
@@ -102,14 +104,14 @@ extension StreamViewController {
         updateUI(.paused)
     }
     
-    @IBAction func didPressCalendarButton(_ sender: Any) {
-        let calendarVC = CalendarViewController.newCalendarVC(context: context)
-        present(UINavigationController(rootViewController: calendarVC), animated: true, completion: nil)
-    }
-    
     @IBAction func didPressFavoritesButton(_ sender: Any) {
         let favoritesVC = FavoritesTableViewController.newFavoritesVC(context: context)
         present(UINavigationController(rootViewController: favoritesVC), animated: true, completion: nil)
+    }
+    
+    @IBAction func didPressCalendarButton(_ sender: Any) {
+        let calendarVC = CalendarViewController.newCalendarVC(context: context)
+        present(UINavigationController(rootViewController: calendarVC), animated: true, completion: nil)
     }
 }
 
@@ -169,6 +171,15 @@ fileprivate enum StreamState {
             return false
         case .paused:
             return true
+        }
+    }
+    
+    var logoImageViewIsHiden: Bool {
+        switch self {
+        case .playing:
+            return true
+        case .paused:
+            return false
         }
     }
 }
