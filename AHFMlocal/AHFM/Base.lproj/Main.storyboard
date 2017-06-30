@@ -105,16 +105,16 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2GA-93-ntf">
-                                                    <rect key="frame" x="121" y="-0.5" width="203" height="44"/>
+                                                    <rect key="frame" x="121" y="-0.5" width="187" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ua5-bd-1ZS">
-                                                    <rect key="frame" x="334" y="11" width="22" height="22"/>
+                                                    <rect key="frame" x="318" y="0.0" width="44" height="44"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="22" id="wNX-8G-jVJ"/>
-                                                        <constraint firstAttribute="height" constant="22" id="ymA-yA-swn"/>
+                                                        <constraint firstAttribute="width" constant="44" id="wNX-8G-jVJ"/>
+                                                        <constraint firstAttribute="height" constant="44" id="ymA-yA-swn"/>
                                                     </constraints>
                                                     <state key="normal" image="original"/>
                                                     <connections>
@@ -135,7 +135,7 @@
                                                 <constraint firstItem="NUw-3W-qsO" firstAttribute="top" secondItem="1gm-6P-KMR" secondAttribute="top" id="Did-mF-IWR"/>
                                                 <constraint firstItem="LpM-kI-CMl" firstAttribute="centerX" secondItem="NUw-3W-qsO" secondAttribute="centerX" id="I0m-s8-4du"/>
                                                 <constraint firstItem="NUw-3W-qsO" firstAttribute="trailing" secondItem="1gm-6P-KMR" secondAttribute="trailing" id="UDq-fu-33o"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="ua5-bd-1ZS" secondAttribute="trailing" constant="11" id="ZAC-6j-LIu"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ua5-bd-1ZS" secondAttribute="trailing" constant="5" id="ZAC-6j-LIu"/>
                                                 <constraint firstItem="LpM-kI-CMl" firstAttribute="top" secondItem="1gm-6P-KMR" secondAttribute="centerY" id="ZPd-lf-F4p"/>
                                                 <constraint firstItem="ua5-bd-1ZS" firstAttribute="leading" secondItem="2GA-93-ntf" secondAttribute="trailing" constant="10" id="dDz-m1-zST"/>
                                                 <constraint firstItem="LpM-kI-CMl" firstAttribute="width" secondItem="NUw-3W-qsO" secondAttribute="width" id="k6o-aF-LKn"/>

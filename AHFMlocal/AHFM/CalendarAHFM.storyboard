@@ -72,16 +72,16 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kGX-KG-NlV">
-                                                    <rect key="frame" x="121" y="0.0" width="203" height="44"/>
+                                                    <rect key="frame" x="121" y="0.0" width="187" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Xk-nCr">
-                                                    <rect key="frame" x="334" y="11.5" width="22" height="22"/>
+                                                    <rect key="frame" x="318" y="0.5" width="44" height="44"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="22" id="BWA-sA-GJq"/>
-                                                        <constraint firstAttribute="width" constant="22" id="zFe-kc-ykk"/>
+                                                        <constraint firstAttribute="height" constant="44" id="BWA-sA-GJq"/>
+                                                        <constraint firstAttribute="width" constant="44" id="zFe-kc-ykk"/>
                                                     </constraints>
                                                     <state key="normal" image="original"/>
                                                     <connections>
@@ -105,7 +105,7 @@
                                                 <constraint firstItem="YgL-Ke-V8s" firstAttribute="trailing" secondItem="SAR-A7-J8c" secondAttribute="trailing" id="Svd-qo-wl2"/>
                                                 <constraint firstItem="b52-dF-QCb" firstAttribute="centerX" secondItem="YgL-Ke-V8s" secondAttribute="centerX" id="Tcl-ni-3g5"/>
                                                 <constraint firstItem="kGX-KG-NlV" firstAttribute="leading" secondItem="SAR-A7-J8c" secondAttribute="trailing" constant="30" id="WC0-CV-NDE"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="DdJ-Xk-nCr" secondAttribute="trailing" constant="11" id="WpW-XV-SUg"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="DdJ-Xk-nCr" secondAttribute="trailing" constant="5" id="WpW-XV-SUg"/>
                                                 <constraint firstItem="YgL-Ke-V8s" firstAttribute="bottom" secondItem="SAR-A7-J8c" secondAttribute="centerY" id="abo-HS-de2"/>
                                                 <constraint firstItem="YgL-Ke-V8s" firstAttribute="top" secondItem="SAR-A7-J8c" secondAttribute="top" id="bT1-FW-GoI"/>
                                                 <constraint firstItem="DdJ-Xk-nCr" firstAttribute="leading" secondItem="kGX-KG-NlV" secondAttribute="trailing" constant="10" id="cuD-nN-fRG"/>

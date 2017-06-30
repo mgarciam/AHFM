@@ -37,16 +37,16 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFb-ec-vEm">
-                                            <rect key="frame" x="121" y="-0.5" width="148" height="44"/>
+                                            <rect key="frame" x="121" y="-0.5" width="132" height="44"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLd-ew-lr8">
-                                            <rect key="frame" x="279" y="11" width="22" height="22"/>
+                                            <rect key="frame" x="263" y="0.0" width="44" height="44"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="22" id="8Sq-Cr-cCR"/>
-                                                <constraint firstAttribute="height" constant="22" id="GJh-am-gOk"/>
+                                                <constraint firstAttribute="width" constant="44" id="8Sq-Cr-cCR"/>
+                                                <constraint firstAttribute="height" constant="44" id="GJh-am-gOk"/>
                                             </constraints>
                                             <state key="normal" image="original"/>
                                             <connections>
@@ -69,7 +69,7 @@
                                         <constraint firstItem="iMk-mw-Lh6" firstAttribute="bottom" secondItem="RlV-oF-G7A" secondAttribute="centerY" id="Jhi-na-RdM"/>
                                         <constraint firstItem="XFb-ec-vEm" firstAttribute="leading" secondItem="RlV-oF-G7A" secondAttribute="trailing" constant="30" id="TbF-Qz-jea"/>
                                         <constraint firstItem="oLd-ew-lr8" firstAttribute="leading" secondItem="XFb-ec-vEm" secondAttribute="trailing" constant="10" id="UT6-z7-9JS"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="oLd-ew-lr8" secondAttribute="trailing" constant="11" id="lqa-xK-9rH"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="oLd-ew-lr8" secondAttribute="trailing" constant="5" id="lqa-xK-9rH"/>
                                         <constraint firstItem="XFb-ec-vEm" firstAttribute="height" secondItem="RlV-oF-G7A" secondAttribute="height" id="nf2-WH-txZ"/>
                                         <constraint firstItem="iMk-mw-Lh6" firstAttribute="trailing" secondItem="RlV-oF-G7A" secondAttribute="trailing" id="v4S-qY-KL9"/>
                                         <constraint firstItem="oLd-ew-lr8" firstAttribute="centerY" secondItem="F2a-H0-sWz" secondAttribute="centerY" id="ve8-SW-ief"/>
