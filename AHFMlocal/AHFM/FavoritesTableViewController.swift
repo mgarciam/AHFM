@@ -12,6 +12,11 @@ import UserNotifications
 
 class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDelegate, UNUserNotificationCenterDelegate {
     
+    enum SavedSection {
+        case notifications([SavedSong])
+        case favorites([SavedSong])
+    }
+    
     var favorites = [SavedSong]()
     var notifications = [SavedSong]()
     
@@ -44,14 +49,6 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
                                                name: Notification.Name(notification: .didUpdateNotifications),
                                                object: nil)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            
-            self.tableView.visibleCells.forEach { (cell) in
-                let songCell = cell as! SongCell
-                songCell.animateCellLabels()
-            }
-        }
-        
         UNUserNotificationCenter.current().delegate = self
         
     }
@@ -75,18 +72,23 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
         }
     }
     
-    fileprivate func array(section: Int) -> [SavedSong] {
+    fileprivate func array(section: Int) -> SavedSection {
         
-        guard favorites.isEmpty && !notifications.isEmpty else {
-            guard !favorites.isEmpty && notifications.isEmpty else {
-                guard section == 0 else {
-                    return favorites
-                }
-                return notifications
+        if notifications.isEmpty && favorites.isEmpty {
+            assert(false, "requestedArrayOfSavedSong")
+            return .favorites([])
+        } else if !notifications.isEmpty && favorites.isEmpty {
+            return .notifications(notifications)
+        } else if notifications.isEmpty && !favorites.isEmpty {
+            return .favorites(favorites)
+        } else if !notifications.isEmpty && !favorites.isEmpty {
+            if section == 0 {
+                return .notifications(notifications)
+            } else {
+                return .favorites(favorites)
             }
-            return favorites
         }
-        return notifications
+        return .favorites([])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -105,31 +107,55 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
             return 0
         }
         
-        tableView.endUpdates()
-        return array(section: section).count
+        switch array(section: section) {
+        case .favorites(let favorites):
+            return favorites.count
+        case .notifications(let notifications):
+            return notifications.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell
-        let song = array(section: indexPath.section)[indexPath.row]
+        
+        let song: SavedSong
+        switch array(section: indexPath.section) {
+        case .favorites(let favorites):
+            song = favorites[indexPath.row]
+        case .notifications(let notifications):
+            song = notifications[indexPath.row]
+        }
+        
         let beginHour = songDateFormatter.string(from: song.beginsAt as Date)
         
         cell.panGesture.delegate = self
         cell.nameLabel.text = song.name
         cell.beginHourLabel.text = beginHour
+        cell.endHourLabel.text = ""
         cell.infoDelegate = self
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = array(section: section)
-        
-        guard section == notifications else {
-            return NSLocalizedString("FAVORITES", comment: "")
-        }
-        return NSLocalizedString("TO NOTIFY", comment: "")
+    /// This functions solves the scrolling problem in the table view
+    ///
+    /// - Parameters:
+    ///   - gestureRecognizer: <#gestureRecognizer description#>
+    ///   - otherGestureRecognizer: <#otherGestureRecognizer description#>
+    /// - Returns: <#return value description#>
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+
+        switch array(section: section) {
+        case .favorites:
+            return NSLocalizedString("FAVORITES", comment: "")
+        case .notifications:
+            return NSLocalizedString("TO NOTIFY", comment: "")
+        }
     }
     
     @IBAction func didPressCloseSavedButton(_ sender: Any) {
@@ -140,6 +166,12 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
 extension FavoritesTableViewController : SongInfoDelegate {
     func songInfo(for cell: SongCell) -> SavedSong? {
         guard let indexPath = tableView.indexPath(for: cell) else { return nil }
-        return array(section: indexPath.section)[indexPath.row]
+        
+        switch array(section: indexPath.section) {
+        case .favorites(let favorites):
+            return favorites[indexPath.row]
+        case .notifications(let notifications):
+            return notifications[indexPath.row]
+        }
     }
 }

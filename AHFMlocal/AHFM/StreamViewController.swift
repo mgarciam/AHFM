@@ -18,7 +18,6 @@ class StreamViewController: SongsViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var divisionView: UIView!
     @IBOutlet weak var currentSongView: UIView!
-    @IBOutlet weak var currentlyLabel: UILabel!
     @IBOutlet weak var currentSongTitleLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
     
@@ -37,10 +36,8 @@ class StreamViewController: SongsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         updateUI(.paused)
-        
-        currentlyLabel.text = NSLocalizedString("NOW PLAYING", comment: "")
     }
     
     fileprivate func updateUI(_ state: StreamState) {
@@ -48,21 +45,14 @@ class StreamViewController: SongsViewController {
         tableView.isHidden = state.tableViewIsHidden
         playButton.isHidden = state.playButtonIsHidden
         currentSongView.isHidden = state.currentSongViewIsHidden
-        currentlyLabel.isHidden = state.currentlyLabelIsHidden
         currentSongTitleLabel.isHidden = state.currentSongTitleLabelIsHidden
         logoImageView.isHidden = state.logoImageViewIsHiden
         
         if state == .playing {
+            title = NSLocalizedString("NOW PLAYING", comment: "")
             requestUpdateFromDataSource()
-            
-            // Initially display the song initial and end hour and then moves them offscreen.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                
-                self.tableView.visibleCells.forEach { (cell) in
-                    let songCell = cell as! SongCell
-                    songCell.animateCellLabels()
-                }
-            }
+        } else {
+            title = NSLocalizedString("AH.FM", comment: "")
         }
     }
     
@@ -73,9 +63,15 @@ class StreamViewController: SongsViewController {
             let item = object,
             let AVItem = item as? AVPlayerItem else { return }
         
-        AVItem.timedMetadata?.forEach { item in
-            currentSongTitleLabel.text = item.stringValue!
+        UIView.animate(withDuration: 0.33) { 
+            AVItem.timedMetadata?.forEach { item in
+                self.currentSongTitleLabel.text = item.stringValue!
+            }
         }
+    }
+    
+    func streamItemFailedToPlay(_ notification: Notification) {
+        let _ = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -89,6 +85,8 @@ extension StreamViewController {
     @IBAction func didTouchPlayButton(_ sender: Any) {
         guard let streamItem = player.currentItem else { return }
         streamItem.addObserver(self, forKeyPath: "timedMetadata", options: .new, context: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(streamItemFailedToPlay(_:)), name: Notification.Name.AVPlayerItemFailedToPlayToEndTime, object: nil)
         
         player.play()
         
@@ -148,15 +146,6 @@ fileprivate enum StreamState {
     }
     
     var currentSongViewIsHidden: Bool {
-        switch self {
-        case .playing:
-            return false
-        case .paused:
-            return true
-        }
-    }
-    
-    var currentlyLabelIsHidden: Bool {
         switch self {
         case .playing:
             return false

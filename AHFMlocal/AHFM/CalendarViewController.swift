@@ -42,14 +42,6 @@ class CalendarViewController: SongsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarView.scope = .week
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            
-            self.tableView.visibleCells.forEach { (cell) in
-                let songCell = cell as! SongCell
-                songCell.animateCellLabels()
-            }
-        }
     }
     
     @IBAction func didPressCloseCalendarButton(_ sender: Any) {

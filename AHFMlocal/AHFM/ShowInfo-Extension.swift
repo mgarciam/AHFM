@@ -28,7 +28,6 @@ extension SongInfoDelegate where Self: UIViewController {
                 UserDefaults.standard.remove(favorite: song)
             } else {
                 UserDefaults.standard.add(favorite: song)
-                cell.infoButton.setImage(UIImage.init(named: "favorite.png"), for: .normal)
             }
         })
         
@@ -47,7 +46,6 @@ extension SongInfoDelegate where Self: UIViewController {
                 }
                 
                 UserDefaults.standard.add(notification: song)
-                cell.infoButton.setImage(UIImage.init(named: "notification.png"), for: .normal)
                 let content = UNMutableNotificationContent()
                 let calendar = NSCalendar.current
                 //let triggerDate = UNTimeIntervalNotificationTrigger.init(timeInterval: 20, repeats: false)

@@ -103,6 +103,16 @@ class SongsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.infoDelegate = self
         return cell
     }
+    
+    /// This functions solves the scrolling problem in the table view
+    ///
+    /// - Parameters:
+    ///   - gestureRecognizer: <#gestureRecognizer description#>
+    ///   - otherGestureRecognizer: <#otherGestureRecognizer description#>
+    /// - Returns: <#return value description#>
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true 
+    }
 }
 
 extension SongsViewController : SongInfoDelegate {
