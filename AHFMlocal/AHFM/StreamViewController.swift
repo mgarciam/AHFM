@@ -26,7 +26,7 @@ class StreamViewController: SongsViewController {
     }
     
     override var requestPredicate: NSPredicate {
-        // The "UP NEXT" section displays songs scheduled for the rest of the day.
+        // The "TODAY" section displays songs scheduled for the rest of the day.
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         calendar?.timeZone = .current
         let date = Date()
@@ -36,6 +36,17 @@ class StreamViewController: SongsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                print(error)
+            }
+        } catch {
+            print(error)
+        }
     
         updateUI(.paused)
     }
@@ -70,12 +81,8 @@ class StreamViewController: SongsViewController {
         }
     }
     
-    func streamItemFailedToPlay(_ notification: Notification) {
-        let _ = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
-    }
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return NSLocalizedString("UP NEXT", comment: "")
+        return NSLocalizedString("TODAY", comment: "")
     }
 }
 
@@ -85,8 +92,6 @@ extension StreamViewController {
     @IBAction func didTouchPlayButton(_ sender: Any) {
         guard let streamItem = player.currentItem else { return }
         streamItem.addObserver(self, forKeyPath: "timedMetadata", options: .new, context: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(streamItemFailedToPlay(_:)), name: Notification.Name.AVPlayerItemFailedToPlayToEndTime, object: nil)
         
         player.play()
         
