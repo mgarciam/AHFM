@@ -72,11 +72,11 @@ extension SongInfoDelegate where Self: UIViewController {
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alert.popoverPresentationController?.sourceView = self.view
-            alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
-            alert.popoverPresentationController?.permittedArrowDirections = []
-        }
+//        if UIDevice.current.userInterfaceIdiom == .pad {
+//            alert.popoverPresentationController?.sourceView = self.view
+//            alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+//            alert.popoverPresentationController?.permittedArrowDirections = []
+//        }
         
         present(alert, animated: true, completion: nil)
     }
