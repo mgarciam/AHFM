@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreData
+import MediaPlayer
 
 class StreamViewController: SongsViewController {
     
@@ -111,6 +112,21 @@ class StreamViewController: SongsViewController {
         UIView.animate(withDuration: 0.33) { 
             AVItem.timedMetadata?.forEach { item in
                 self.currentSongTitleLabel.text = item.stringValue!
+                
+                let artwork = MPMediaItemArtwork(boundsSize: CGSize.init(width: 84, height: 84)) { size -> UIImage in
+                    let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? NSDictionary
+                    let primaryIconsDictionary = iconsDictionary?["CFBundlePrimaryIcon"] as? NSDictionary
+                    let iconFiles = primaryIconsDictionary!["CFBundleIconFiles"] as! NSArray
+                    let lastIcon = iconFiles.lastObject as! NSString
+                    return UIImage(named: lastIcon as String)!
+                }
+                
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = [
+                    MPMediaItemPropertyTitle: item.stringValue!,
+                    MPNowPlayingInfoPropertyIsLiveStream: true,
+                    MPMediaItemPropertyArtist: "AH.FM",
+                    MPMediaItemPropertyArtwork: artwork,
+                ]
             }
         }
     }
