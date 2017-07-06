@@ -22,9 +22,15 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
     
     let now = Date()
     
-    lazy var songDateFormatter: DateFormatter = {
+    lazy var songHourFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
+        return formatter
+    }()
+    
+    lazy var songDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MMM-yyyy"
         return formatter
     }()
     
@@ -127,22 +133,23 @@ class FavoritesTableViewController: UITableViewController, UIGestureRecognizerDe
             song = notifications[indexPath.row]
         }
         
-        let beginHour = songDateFormatter.string(from: song.beginsAt as Date)
+        let beginHour = songHourFormatter.string(from: song.beginsAt as Date)
+        let songDate = songDateFormatter.string(from: song.beginsAt as Date)
         
         cell.panGesture.delegate = self
         cell.nameLabel.text = song.name
         cell.beginHourLabel.text = beginHour
-        cell.endHourLabel.text = ""
+        cell.endHourLabel.text = songDate
         cell.infoDelegate = self
         return cell
     }
     
-    /// This functions solves the scrolling problem in the table view
+    /// This function allows the View Controller to recognize two gestures at the same time, in this case the pan gesture for the cells and the swipe to scroll.
     ///
     /// - Parameters:
-    ///   - gestureRecognizer: <#gestureRecognizer description#>
-    ///   - otherGestureRecognizer: <#otherGestureRecognizer description#>
-    /// - Returns: <#return value description#>
+    ///   - gestureRecognizer: one gesture recognizer
+    ///   - otherGestureRecognizer: other gesture recognizer
+    /// - Returns: true, to allow the action
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }

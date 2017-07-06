@@ -11,7 +11,7 @@ import AVFoundation
 import CoreData
 
 class StreamViewController: SongsViewController {
-
+    
     let player = AVPlayer(playerItem: AVPlayerItem(url: URL(string: "http://www.ah.fm/192k.m3u")!))
     
     @IBOutlet weak var pauseButton: UIButton!
@@ -26,11 +26,11 @@ class StreamViewController: SongsViewController {
     }
     
     override var requestPredicate: NSPredicate {
-        // The "TODAY" section displays songs scheduled for the rest of the day.
+        // The "UP NEXT" section displays songs scheduled for the next 24 hours.
         let calendar = NSCalendar(calendarIdentifier: .gregorian)
         calendar?.timeZone = .current
         let date = Date()
-        let nextDay = calendar?.startOfDay(for: (calendar?.date(byAdding: .day, value: 1, to: date))!)
+        let nextDay = calendar?.date(byAdding: .day, value: 1, to: date)
         return NSPredicate(format: "(beginsAt > %@) AND (beginsAt < %@)", date as NSDate, nextDay! as NSDate)
     }
     
@@ -38,7 +38,7 @@ class StreamViewController: SongsViewController {
         super.viewDidLoad()
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             do {
                 try AVAudioSession.sharedInstance().setActive(true)
             } catch {
@@ -47,10 +47,44 @@ class StreamViewController: SongsViewController {
         } catch {
             print(error)
         }
-    
+        
         updateUI(.paused)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        becomeFirstResponder()
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override func remoteControlReceived(with event: UIEvent?) {
+        guard let event = event else { return }
+        if event.type == .remoteControl {
+            switch event.subtype {
+            case .remoteControlTogglePlayPause:
+                if player.rate == 0 {
+                    player.pause()
+                } else {
+                    player.play()
+                }
+            case .remoteControlPlay:
+                player.play()
+                break
+                
+            case .remoteControlPause:
+                player.pause()
+                break
+                
+            default:
+                break
+            }
+        }
+    }
+
     fileprivate func updateUI(_ state: StreamState) {
         pauseButton.isHidden = state.pauseButtonIsHidden
         tableView.isHidden = state.tableViewIsHidden
@@ -68,7 +102,7 @@ class StreamViewController: SongsViewController {
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        // FIXME: Explain
+        // Observes AVPlayerItem's metadata on the main thread.
         guard let givenPath = keyPath,
             givenPath == "timedMetadata",
             let item = object,
@@ -82,7 +116,7 @@ class StreamViewController: SongsViewController {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return NSLocalizedString("TODAY", comment: "")
+        return NSLocalizedString("UP NEXT", comment: "")
     }
 }
 
@@ -101,7 +135,7 @@ extension StreamViewController {
     @IBAction func didTouchPauseButton(_ sender: Any) {
         guard let streamItem = player.currentItem else { return }
         streamItem.removeObserver(self, forKeyPath: "timedMetadata")
-        
+
         player.pause()
         
         updateUI(.paused)

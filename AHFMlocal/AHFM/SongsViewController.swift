@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 import UserNotifications
+import AVFoundation
 
 class SongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UNUserNotificationCenterDelegate {
     
@@ -104,12 +105,12 @@ class SongsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
-    /// This functions solves the scrolling problem in the table view
+    /// This function allows the View Controller to recognize two gestures at the same time, in this case the pan gesture for the cells and the swipe to scroll.
     ///
     /// - Parameters:
-    ///   - gestureRecognizer: <#gestureRecognizer description#>
-    ///   - otherGestureRecognizer: <#otherGestureRecognizer description#>
-    /// - Returns: <#return value description#>
+    ///   - gestureRecognizer: one gesture recognizer
+    ///   - otherGestureRecognizer: other gesture recognizer
+    /// - Returns: true, to allow the action
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true 
     }

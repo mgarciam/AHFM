@@ -36,7 +36,10 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="endHour" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VyV-u0-3C4">
-                                            <rect key="frame" x="11" y="22" width="75" height="17"/>
+                                            <rect key="frame" x="8.5" y="22" width="80" height="17"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="80" id="asi-wU-58I"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -70,7 +73,6 @@
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Cay-Av-Tff" secondAttribute="trailing" id="0eQ-GW-8ct"/>
                                         <constraint firstItem="VyV-u0-3C4" firstAttribute="centerX" secondItem="rjp-ou-gD6" secondAttribute="centerX" id="2CM-Qi-Hs2"/>
-                                        <constraint firstItem="VyV-u0-3C4" firstAttribute="width" secondItem="rjp-ou-gD6" secondAttribute="width" id="6sq-wU-hnk"/>
                                         <constraint firstItem="9OP-rG-vHQ" firstAttribute="height" secondItem="q1X-zv-m1a" secondAttribute="height" id="Fe4-jC-JaW"/>
                                         <constraint firstItem="rjp-ou-gD6" firstAttribute="trailing" secondItem="nh2-qA-vUR" secondAttribute="trailing" constant="-5" id="H1k-ic-geN"/>
                                         <constraint firstItem="9OP-rG-vHQ" firstAttribute="leading" secondItem="nh2-qA-vUR" secondAttribute="trailing" constant="15" id="LJ9-Vo-iUn"/>

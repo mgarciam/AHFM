@@ -34,6 +34,7 @@ class SongCell: UITableViewCell {
         super.awakeFromNib()
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureInCell(gesture:)))
         addGestureRecognizer(panGesture)
+        
         // Initially display the song initial and end hour and then moves them offscreen.
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.animateCellLabels()
@@ -48,7 +49,7 @@ class SongCell: UITableViewCell {
             
         case .changed:
             
-            // FIXME: Explain
+            // When the current location of the pangesture changes from the initial location and the gesture follows a 'horizontal' direction, sets a relation to visually soften the change of the leading constraints of the hour labels.
             guard panGesture.velocity(in: self).x > 10 else {
                 return
             }
