@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="NrO-8g-GmY" customClass="SongCell" customModule="AHFM" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="44" id="NrO-8g-GmY" customClass="SongCell" customModule="AHFM" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NrO-8g-GmY" id="q1X-zv-m1a">
@@ -36,9 +36,9 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="endHour" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VyV-u0-3C4">
-                                            <rect key="frame" x="8.5" y="22" width="80" height="17"/>
+                                            <rect key="frame" x="-4" y="22" width="90" height="17"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="80" id="asi-wU-58I"/>
+                                                <constraint firstAttribute="width" constant="90" id="asi-wU-58I"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -72,7 +72,6 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Cay-Av-Tff" secondAttribute="trailing" id="0eQ-GW-8ct"/>
-                                        <constraint firstItem="VyV-u0-3C4" firstAttribute="centerX" secondItem="rjp-ou-gD6" secondAttribute="centerX" id="2CM-Qi-Hs2"/>
                                         <constraint firstItem="9OP-rG-vHQ" firstAttribute="height" secondItem="q1X-zv-m1a" secondAttribute="height" id="Fe4-jC-JaW"/>
                                         <constraint firstItem="rjp-ou-gD6" firstAttribute="trailing" secondItem="nh2-qA-vUR" secondAttribute="trailing" constant="-5" id="H1k-ic-geN"/>
                                         <constraint firstItem="9OP-rG-vHQ" firstAttribute="leading" secondItem="nh2-qA-vUR" secondAttribute="trailing" constant="15" id="LJ9-Vo-iUn"/>
@@ -83,6 +82,7 @@
                                         <constraint firstItem="9OP-rG-vHQ" firstAttribute="centerY" secondItem="nh2-qA-vUR" secondAttribute="centerY" id="UCj-Hk-RQm"/>
                                         <constraint firstItem="rjp-ou-gD6" firstAttribute="bottom" secondItem="nh2-qA-vUR" secondAttribute="centerY" id="WWE-a5-x2Q"/>
                                         <constraint firstItem="VyV-u0-3C4" firstAttribute="top" secondItem="nh2-qA-vUR" secondAttribute="centerY" id="Yrm-zd-jv3"/>
+                                        <constraint firstItem="VyV-u0-3C4" firstAttribute="trailing" secondItem="rjp-ou-gD6" secondAttribute="trailing" id="Z8n-6a-eNt"/>
                                         <constraint firstItem="nh2-qA-vUR" firstAttribute="leading" secondItem="q1X-zv-m1a" secondAttribute="leading" constant="90" id="sur-N4-2Oq"/>
                                     </constraints>
                                 </tableViewCellContentView>

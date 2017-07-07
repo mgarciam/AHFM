@@ -32,7 +32,7 @@ extension SongInfoDelegate where Self: UIViewController {
         })
         
         let isNotification = notifications.contains(song)
-        let notificationAction = UIAlertAction(title: isNotification ? NSLocalizedString("Unnotify me", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
+        let notificationAction = UIAlertAction(title: isNotification ? NSLocalizedString("Stop notification", comment: "") : NSLocalizedString("Notify me", comment: ""), style: .default) { action in
             
             if isNotification {
                 UserDefaults.standard.remove(notification: song)
@@ -48,8 +48,8 @@ extension SongInfoDelegate where Self: UIViewController {
                 UserDefaults.standard.add(notification: song)
                 let content = UNMutableNotificationContent()
                 let calendar = NSCalendar.current
-                //let triggerDate = UNTimeIntervalNotificationTrigger.init(timeInterval: 20, repeats: false)
                 let triggerDate = calendar.dateComponents([.month, .day, .year, .hour, .minute], from: song.beginsAt as Date)
+                
                 content.title = song.name
                 content.body = NSLocalizedString("Is playing now!", comment: "")
                 content.badge = 1 
