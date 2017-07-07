@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import CoreData
 import UserNotifications
-import AVFoundation
 
 class SongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UNUserNotificationCenterDelegate {
     
@@ -72,7 +71,6 @@ class SongsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
